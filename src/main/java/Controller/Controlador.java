@@ -2,11 +2,15 @@ package Controller;
 
 //------------------------------------------------
 // NETBEANS
+import DAO_Controller.DAOSQL;
 import java.util.HashSet;
 
 // PROYECTO
 import Model.*;
 import Excepcion.*;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase para controlar HashSet
@@ -27,7 +31,7 @@ public class Controlador {
      * @return Devuelve el planeta ps del hashet que equivale a p
      */
     public static Planeta getPlanet(Planeta p) {
-        if(allplanet.contains(p)){
+        if (allplanet.contains(p)) {
             for (Planeta ps : allplanet) {
                 if (ps.equals(p)) {
                     return ps;
@@ -104,11 +108,17 @@ public class Controlador {
      * @throws PlanetaExcepcion Si hay un error lo lanza
      */
     public static void createplaneta(Planeta p) throws PlanetaExcepcion {
-        if(allplanet.add(p)){
-            
-        }else{
-            throw new PlanetaExcepcion("El nombre: " + p.getName() + " ya esta en uso.");
+
+        DAOSQL daoEst = new DAOSQL();
+
+        int registeredStudents;
+        try {
+            registeredStudents = daoEst.insert(p);
+
+        } catch (DAO_Excep ex) {
+            throw new PlanetaExcepcion(p.getName() + " has been registered.");
         }
+
     }
 
     /**
@@ -126,7 +136,7 @@ public class Controlador {
         }
         return false;
     }
-    
+
     /**
      * Esta funcion es para conseguir el Planeta en donde vive el ciudadano
      *
@@ -174,46 +184,46 @@ public class Controlador {
         if (p.getPopulation().size() < p.getPopulationMax()) {
             if (noRepeatNombreSer(s) == null) {
 //                Si s es Specie Andoriano
-                    if (s instanceof Vulcaniano) {
-                        for (Ser existente : p.getPopulation()) {
-                            //coincide en el mismo lugar que un vulcaniano
-                            if (existente instanceof Andoriano) {
-                                throw new SerExcepcion(" En el " + p.getName() + " existe un Andoriano");
-                            }
+                if (s instanceof Vulcaniano) {
+                    for (Ser existente : p.getPopulation()) {
+                        //coincide en el mismo lugar que un vulcaniano
+                        if (existente instanceof Andoriano) {
+                            throw new SerExcepcion(" En el " + p.getName() + " existe un Andoriano");
                         }
-//        Si s es tipo Andoriano
-                    } else if (s instanceof Andoriano) {
-                        for (Ser existente : p.getPopulation()) {
-                            //coincide en el mismo lugar que un vulcaniano
-                            if (existente instanceof Vulcaniano) {
-                                throw new SerExcepcion(" En el " + p.getName() + " existe un Vulcaniano");
-                            }
-                        }
-//            Si es tipo klingon
-                    } else if (s instanceof Klingon) {
-//            Si el clima es de tipo Calido
-                        if (p.getClime().equalsIgnoreCase("Calido")) {
-                            throw new SerExcepcion("No puede vivir en este planeta porque es de clima " + p.getClime() + ".");
-                        }
-//            Si s es tipo Nibirianos
-                    } else if (s instanceof Nibiriano) {
-                        Nibiriano n = (Nibiriano) s;
-                        // Si es vegetariano, necesita flora roja
-                        if (n.esVegetariano() && !p.isFlora()) {
-                            throw new SerExcepcion("No puede vivir en este planeta porque es no tiene flora.");
-                            // Si es carnivoro, necesita fauna marina
-                        } else if (n.esCarnivoro() && !p.isAquatic()) {
-                            throw new SerExcepcion("No puede vivir en este planeta porque es no tiene fauna marina.");
-                        }
-//            Si s es tipo Ferengi
-                    } else if (s instanceof Ferengi) {
-//            Si el clima es tipo Frio
-                        if (p.getClime().contains("Frio")) {
-                            System.out.println(s.toString());
-                            throw new SerExcepcion("No puede vivir en este planeta porque es de clima " + p.getClime() + ".");
-                        }
-                    } else if (s instanceof Humano) {
                     }
+//        Si s es tipo Andoriano
+                } else if (s instanceof Andoriano) {
+                    for (Ser existente : p.getPopulation()) {
+                        //coincide en el mismo lugar que un vulcaniano
+                        if (existente instanceof Vulcaniano) {
+                            throw new SerExcepcion(" En el " + p.getName() + " existe un Vulcaniano");
+                        }
+                    }
+//            Si es tipo klingon
+                } else if (s instanceof Klingon) {
+//            Si el clima es de tipo Calido
+                    if (p.getClime().equalsIgnoreCase("Calido")) {
+                        throw new SerExcepcion("No puede vivir en este planeta porque es de clima " + p.getClime() + ".");
+                    }
+//            Si s es tipo Nibirianos
+                } else if (s instanceof Nibiriano) {
+                    Nibiriano n = (Nibiriano) s;
+                    // Si es vegetariano, necesita flora roja
+                    if (n.esVegetariano() && !p.isFlora()) {
+                        throw new SerExcepcion("No puede vivir en este planeta porque es no tiene flora.");
+                        // Si es carnivoro, necesita fauna marina
+                    } else if (n.esCarnivoro() && !p.isAquatic()) {
+                        throw new SerExcepcion("No puede vivir en este planeta porque es no tiene fauna marina.");
+                    }
+//            Si s es tipo Ferengi
+                } else if (s instanceof Ferengi) {
+//            Si el clima es tipo Frio
+                    if (p.getClime().contains("Frio")) {
+                        System.out.println(s.toString());
+                        throw new SerExcepcion("No puede vivir en este planeta porque es de clima " + p.getClime() + ".");
+                    }
+                } else if (s instanceof Humano) {
+                }
             } else {
                 throw new SerExcepcion("El nombre:  " + s.getName() + " ya esta en uso.");
             }
