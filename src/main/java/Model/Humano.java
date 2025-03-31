@@ -37,7 +37,7 @@ public class Humano extends Ser {
         return genero;
     }
 
-    public static int getCivilizationLevel() {
+    public int getCivilizationLevel() {
         return civilizationLevel;
     }
 

@@ -32,6 +32,10 @@ public class Vulcaniano extends Ser {
         return meditation;
     }
 
+    public int getCivilizationLevel() {
+        return civilizationLevel;
+    }
+
 //SETTER:   
     public void setMeditation(int meditation) {
         this.meditation = meditation;

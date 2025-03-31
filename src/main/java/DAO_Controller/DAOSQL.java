@@ -1,7 +1,7 @@
 package DAO_Controller;
 
 import Excepcion.DAO_Excep;
-import Model.Planeta;
+import Model.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,6 @@ public class DAOSQL {
     private final String SQL_SELECT2 = "SELECT * FROM " + JDBC_DDBB_TABLE + " WHERE (age = ";
 
     // INSERTS
-    private final String SQL_INSERT = "INSERT INTO " + JDBC_DDBB_TABLE + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
     private final String SQL_INSERT_PLA = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
     private final String SQL_INSERT_AND = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, range, ice, civilization) VALUES (?, ?, ?, ?);";
     private final String SQL_INSERT_HUM = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, gender, age, civilization) VALUES (?, ?, ?, ?);";
@@ -204,7 +203,7 @@ public class DAOSQL {
         int registers = 0;
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_INSERT);
+            instruction = conn.prepareStatement(SQL_INSERT_PLA);
             instruction.setString(1, planet.getName());
             instruction.setString(2, planet.getGalaxy());
             instruction.setInt(3, planet.getPopulationMax());
@@ -227,133 +226,199 @@ public class DAOSQL {
         //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
         return registers;
     }
-//
-//    @Override
-//    public int update(Student student) throws DAO_Excep {
-//        Connection conn = null;
-//        PreparedStatement instruction = null;
-//        int registers = 0;
-//        try {
-//            conn = connect();
-//            instruction = conn.prepareStatement(SQL_UPDATE);
-//            instruction.setInt(1, student.getAge());
-//            instruction.setString(2, student.getName());
-//            //cada vez que modificamos una base de datos llamamos a executeUpdate()
-//            registers = instruction.executeUpdate();
-//        } catch (SQLException ex) {
-//            //ex.printStackTrace(System.out);
-//            throw new Write_SQL_DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.update)");
-//        } finally {
-//            try {
-//                instruction.close();
-//                disconnect(conn);
-//            } catch (SQLException ex) {
-//                //ex.printStackTrace(System.out);
-//                throw new Write_SQL_DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.update)");
-//            }
-//        }
-//        //Devolvemos la cantidad de registros afectados
-//        return registers;
-//    }
-//
-//    @Override
-//    public int delete(Student student) throws DAO_Excep {
-//        Connection conn = null;
-//        PreparedStatement instruccion = null;
-//        int registers = 0;
-//        try {
-//            conn = connect();
-//            String query = SQL_DELETE + "'" + student.getName() + "'" + ");";
-//            instruccion = conn.prepareStatement(query);
-//            //cada vez que modificamos una base de datos llamamos a executeUpdate()
-//            registers = instruccion.executeUpdate();
-//        } catch (SQLException ex) {
-//            //ex.printStackTrace(System.out);
-//            throw new Write_SQL_DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.delete)");
-//
-//        } finally {
-//            try {
-//                instruccion.close();
-//                disconnect(conn);
-//            } catch (SQLException ex) {
-//                ex.printStackTrace(System.out);
-//                throw new Write_SQL_DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.delete)");
-//            }
-//        }
-//        //Devolvemos la cantidad de registros afectados
-//        return registers;
-//    }
-//
-//    @Override
-//    public int deleteALL() throws DAO_Excep {
-//        Connection conn = null;
-//        PreparedStatement instruccion = null;
-//        int registers = 0;
-//        try {
-//            conn = connect();
-//            instruccion = conn.prepareStatement(SQL_DELETE_ALL);
-//            //cada vez que modificamos una base de datos llamamos a executeUpdate()
-//            registers = instruccion.executeUpdate();
-//        } catch (SQLException ex) {
-//            //ex.printStackTrace(System.out);
-//            throw new Write_SQL_DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.deleteAll)");
-//        } finally {
-//            try {
-//                instruccion.close();
-//                disconnect(conn);
-//            } catch (SQLException ex) {
-//                ex.printStackTrace(System.out);
-//                throw new Write_SQL_DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.deleteAll)");
-//            }
-//        }
-//        //Devolvemos la cantidad de registros afectados
-//        return registers;
-//    }
-//
-//    @Override
-//    public int resetAges() throws DAO_Excep {
-//        //Esta operación se podría hacer con una única consulta SQL
-//        //pero no lo hacemos así porque es un ejemplo de transacción
-//        Connection conn = null;
-//        PreparedStatement instruction = null;
-//        int registers = 0;
-//        try {
-//            List<Student> students = readALL();
-//            conn = connect();
-//            conn.setAutoCommit(false);
-//            if (!students.isEmpty()) {
-//                for (Student a : students) {
-//                    instruction = conn.prepareStatement(SQL_RESET_AGES);
-//                    instruction.setString(1, a.getName());
-//                    //cada vez que modificamos una base de datos llamamos a executeUpdate()
-//                    registers += instruction.executeUpdate(); 
-//                    //Activar para comprobar el funcionamiento del rollback
-//                    //Debe haber más de un estudiante en la Base de datos (*)
-////                    throw new SQLException();
-//                }
-//            }
-//        } catch (SQLException ex) {
-//            if(conn != null){
-//                try {
-//                    conn.rollback();
-//                } catch (SQLException ex1) {
-//                    System.out.println("ROLLBACK");
-//                }
-//                //(*)
-////                registers=0;
-//            }
-//        } finally {
-//            try {
-//                instruction.close();
-//                conn.setAutoCommit(true);
-//                disconnect(conn);
-//            } catch (SQLException ex) {
-//                ex.printStackTrace(System.out);
-//                throw new Write_SQL_DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.deleteAll)");
-//            }
-//        }
-//        //Devolvemos la cantidad de registros afectados
-//        return registers;
-//    }
+
+    public int inserthum(Humano h) throws DAO_Excep {
+        Connection conn = null;
+        //La clase PreparedStatement también permite ejecutar sentencias SQL
+        //pero con mayor flexibilidad
+        //Mis anotaciones: PreparedStatement a diferencia de Statement, 
+        //te permite dejar en ? las variables a insertar y 
+        //luego añadirlas con set (ver linea 36 y 37 de ejemplo
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction.setString(1, h.getName());
+            instruction.setString(2, h.getGenero());
+            instruction.setInt(3, h.getEdad());
+            instruction.setInt(4, h.getCivilizationLevel());
+            //TODO meter resto campos
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
+        return registers;
+    }
+
+    public int insertand(Andoriano a) throws DAO_Excep {
+        Connection conn = null;
+        //La clase PreparedStatement también permite ejecutar sentencias SQL
+        //pero con mayor flexibilidad
+        //Mis anotaciones: PreparedStatement a diferencia de Statement, 
+        //te permite dejar en ? las variables a insertar y 
+        //luego añadirlas con set (ver linea 36 y 37 de ejemplo
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction.setString(1, a.getName());
+            instruction.setString(2, a.getRange());
+            instruction.setBoolean(3, a.isIceAtThePoles());
+            instruction.setInt(4, a.getCivilizationLevel());
+            //TODO meter resto campos
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
+        return registers;
+    }
+
+    public int insertfer(Ferengi f) throws DAO_Excep {
+        Connection conn = null;
+        //La clase PreparedStatement también permite ejecutar sentencias SQL
+        //pero con mayor flexibilidad
+        //Mis anotaciones: PreparedStatement a diferencia de Statement, 
+        //te permite dejar en ? las variables a insertar y 
+        //luego añadirlas con set (ver linea 36 y 37 de ejemplo
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction.setString(1, f.getName());
+            instruction.setInt(2, f.getGold());
+            instruction.setInt(3, f.getCivilizationLevel());
+            //TODO meter resto campos
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
+        return registers;
+    }
+
+    public int insertkli(Klingon k) throws DAO_Excep {
+        Connection conn = null;
+        //La clase PreparedStatement también permite ejecutar sentencias SQL
+        //pero con mayor flexibilidad
+        //Mis anotaciones: PreparedStatement a diferencia de Statement, 
+        //te permite dejar en ? las variables a insertar y 
+        //luego añadirlas con set (ver linea 36 y 37 de ejemplo
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction.setString(1, k.getName());
+            instruction.setInt(2, k.getForce());
+            instruction.setInt(3, k.getCivilizationLevel());
+            //TODO meter resto campos
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
+        return registers;
+    }
+
+    public int insertnib(Nibiriano n) throws DAO_Excep {
+        Connection conn = null;
+        //La clase PreparedStatement también permite ejecutar sentencias SQL
+        //pero con mayor flexibilidad
+        //Mis anotaciones: PreparedStatement a diferencia de Statement, 
+        //te permite dejar en ? las variables a insertar y 
+        //luego añadirlas con set (ver linea 36 y 37 de ejemplo
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction.setString(1, n.getName());
+            instruction.setString(2, n.getFloraOrFish());
+            instruction.setInt(3, n.getCivilizationLevel());
+            //TODO meter resto campos
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
+        return registers;
+    }
+
+    public int insertvul(Vulcaniano v) throws DAO_Excep {
+        Connection conn = null;
+        //La clase PreparedStatement también permite ejecutar sentencias SQL
+        //pero con mayor flexibilidad
+        //Mis anotaciones: PreparedStatement a diferencia de Statement, 
+        //te permite dejar en ? las variables a insertar y 
+        //luego añadirlas con set (ver linea 36 y 37 de ejemplo
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction.setString(1, v.getName());
+            instruction.setInt(2, v.getMeditation());
+            instruction.setInt(3, v.getCivilizationLevel());
+            //TODO meter resto campos
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
+        return registers;
+    }
 
 }

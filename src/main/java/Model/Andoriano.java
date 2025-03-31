@@ -39,7 +39,7 @@ public class Andoriano extends Ser {
         return iceAtThePoles;
     }
 
-    public static int getCivilizationLevel() {
+    public int getCivilizationLevel() {
         return civilizationLevel;
     }
 
