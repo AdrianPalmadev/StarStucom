@@ -16,7 +16,6 @@ public class Planeta extends Object {
 
     protected String galaxy; //la galaxia a la que pertenece
     protected int populationMax; //máximo de población por planeta
-    protected HashSet<Ser> population;//arrayList para tener los habitantes de los planetas
     protected String clime; //el tipo de clima que puede ser frío, cálido o templado
     protected boolean flora; //SI dispone de flora roja o no
     protected boolean aquatic; //SI tiene seres acuáticos o no
@@ -28,7 +27,6 @@ public class Planeta extends Object {
         this.name = name;
         this.galaxy = galaxy;
         this.populationMax = populationMax;
-        this.population = new HashSet<>();
         this.clime = clime;
         this.flora = flora;
         this.aquatic = aquatic;
@@ -57,10 +55,6 @@ public class Planeta extends Object {
         return populationMax;
     }
 
-    public HashSet<Ser> getPopulation() {
-        return population;
-    }
-
     public String getClime() {
         return clime;
     }
@@ -82,10 +76,6 @@ public class Planeta extends Object {
 
     public void setPopulationMax(int populationMax) {
         this.populationMax = populationMax;
-    }
-
-    public void setPopulation(HashSet<Ser> population) {
-        this.population = population;
     }
 
     public void setClime(String clime) {

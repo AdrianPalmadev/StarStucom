@@ -271,7 +271,7 @@ public class DAOSQL {
         int registers = 0;
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction = conn.prepareStatement(SQL_INSERT_AND);
             instruction.setString(1, a.getName());
             instruction.setString(2, a.getRange());
             instruction.setBoolean(3, a.isIceAtThePoles());
@@ -304,7 +304,7 @@ public class DAOSQL {
         int registers = 0;
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction = conn.prepareStatement(SQL_INSERT_FER);
             instruction.setString(1, f.getName());
             instruction.setInt(2, f.getGold());
             instruction.setInt(3, f.getCivilizationLevel());
@@ -336,7 +336,7 @@ public class DAOSQL {
         int registers = 0;
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction = conn.prepareStatement(SQL_INSERT_KLI);
             instruction.setString(1, k.getName());
             instruction.setInt(2, k.getForce());
             instruction.setInt(3, k.getCivilizationLevel());
@@ -368,7 +368,7 @@ public class DAOSQL {
         int registers = 0;
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction = conn.prepareStatement(SQL_INSERT_NIB);
             instruction.setString(1, n.getName());
             instruction.setString(2, n.getFloraOrFish());
             instruction.setInt(3, n.getCivilizationLevel());
@@ -400,7 +400,7 @@ public class DAOSQL {
         int registers = 0;
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_INSERT_HUM);
+            instruction = conn.prepareStatement(SQL_INSERT_VUL);
             instruction.setString(1, v.getName());
             instruction.setInt(2, v.getMeditation());
             instruction.setInt(3, v.getCivilizationLevel());
