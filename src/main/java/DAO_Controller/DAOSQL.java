@@ -28,11 +28,21 @@ public class DAOSQL {
     private final String JDBC_TABLE = "planet";
     private final String JDBC_DDBB_TABLE = JDBC_DDBB + "." + JDBC_TABLE;
 
-    //Variables para las consultas SQL
+    // SELECTS
     private final String SQL_SELECT_ALL = "SELECT * FROM " + JDBC_DDBB_TABLE + ";";
     private final String SQL_SELECT = "SELECT * FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
     private final String SQL_SELECT2 = "SELECT * FROM " + JDBC_DDBB_TABLE + " WHERE (age = ";
-    private final String SQL_INSERT = "INSERT INTO " + JDBC_DDBB_TABLE + " (galaxy, name, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
+
+    // INSERTS
+    private final String SQL_INSERT = "INSERT INTO " + JDBC_DDBB_TABLE + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
+    private final String SQL_INSERT_PLA = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
+    private final String SQL_INSERT_AND = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, range, ice, civilization) VALUES (?, ?, ?, ?);";
+    private final String SQL_INSERT_HUM = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, gender, age, civilization) VALUES (?, ?, ?, ?);";
+    private final String SQL_INSERT_FER = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, gold, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_KLI = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, force, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_NIB = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, floraorfish, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_VUL = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, meditation, civilization) VALUES (?, ?, ?);";
+
     private final String SQL_UPDATE = "UPDATE " + JDBC_DDBB_TABLE + " SET age = ? WHERE (name = ?);";
     private final String SQL_DELETE = "DELETE FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
     private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
@@ -50,7 +60,13 @@ public class DAOSQL {
             //getConnection necesita la BBDD, el usuario y la contraseña
             conn = DriverManager.getConnection(JDBC_URL + JDBC_COMMU_OPT, JDBC_USER, JDBC_PASSWORD);
             createDB(conn);
-            createTable(conn);
+            createTablePla(conn);
+            createTableAnd(conn);
+            createTableFer(conn);
+            createTableHum(conn);
+            createTableKli(conn);
+            createTableNib(conn);
+            createTableVul(conn);
 
         } catch (SQLException ex) {
             //ex.printStackTrace(System.out);
@@ -59,25 +75,6 @@ public class DAOSQL {
         }
         return conn;
     }
-//    public Connection connect() throws DAO_Excep {
-//        Connection conn = null;
-//        try {
-//            //Esta línea no es necesaria, excepto en algunas aplicaciones WEB
-//            //En aplicaciones locales como esta no sería necesaria
-//            //Class.forName("com.mysql.cj.jdbc.Driver");
-//            //getConnection necesita la BBDD, el usuario y la contraseña
-//            conn = DriverManager.getConnection(JDBC_URL + JDBC_COMMU_OPT, JDBC_USER, JDBC_PASSWORD);
-//            createDB(conn);
-//            createTable(conn);
-////        } catch (ClassNotFoundException ex) {
-////           ex.printStackTrace(System.out);
-//        } catch (SQLException ex) {
-//            //ex.printStackTrace(System.out);
-//            throw new DAO_Excep("Can not connect or create database with tables: " + JDBC_DDBB);
-//        }
-//        return conn;
-//    }
-//
 
     private void createDB(Connection conn) throws SQLException {
         //Sentencia SQL que crea la BBDD si no existe en el servidor
@@ -89,23 +86,11 @@ public class DAOSQL {
         //Liberamos los recursos de la comunicación   
         stmt.close();
     }
-//    private void createDB(Connection conn) throws SQLException {
-//        //Sentencia SQL que crea la BBDD si no existe en el servidor
-//        String instruction = "create database if not exists " + JDBC_DDBB + ";";
-//        Statement stmt = null;
-//        stmt = conn.createStatement();
-//        //La clase Statemen nos permite ejecutar sentencias SQL
-//        stmt.executeUpdate(instruction);
-//        //Liberamos los recursos de la comunicación   
-//        stmt.close();
-//    }
-//
 
-    private void createTable(Connection conn) throws SQLException {
+    private void createTablePla(Connection conn) throws SQLException {
         String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
-                + "id Bigint primary key auto_increment, "
+                + "name varchar(50) primary key,"
                 + "galaxy varchar(50),"
-                + "name varchar(50),"
                 + "MaxPopulation int,"
                 + "clime varchar(10),"
                 + "flora boolean,"
@@ -117,7 +102,86 @@ public class DAOSQL {
         //Liberamos los recursos de la comunicación   
         stmt.close();
     }
-//
+
+    private void createTableAnd(Connection conn) throws SQLException {
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+                + "name varchar(50) primary key,"
+                + "range varchar(15),"
+                + "ice boolean,"
+                + "civilization int);";
+        System.out.println(query);
+        Statement stmt = null;
+        stmt = conn.createStatement();
+        stmt.executeUpdate(query);
+        //Liberamos los recursos de la comunicación   
+        stmt.close();
+    }
+
+    private void createTableHum(Connection conn) throws SQLException {
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+                + "name varchar(50) primary key,"
+                + "gender varchar(15),"
+                + "age int,"
+                + "civilization int);";
+        System.out.println(query);
+        Statement stmt = null;
+        stmt = conn.createStatement();
+        stmt.executeUpdate(query);
+        //Liberamos los recursos de la comunicación   
+        stmt.close();
+    }
+
+    private void createTableFer(Connection conn) throws SQLException {
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+                + "name varchar(50) primary key,"
+                + "gold int,"
+                + "civilization int);";
+        System.out.println(query);
+        Statement stmt = null;
+        stmt = conn.createStatement();
+        stmt.executeUpdate(query);
+        //Liberamos los recursos de la comunicación   
+        stmt.close();
+    }
+
+    private void createTableKli(Connection conn) throws SQLException {
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+                + "name varchar(50) primary key,"
+                + "force int,"
+                + "civilization int);";
+        System.out.println(query);
+        Statement stmt = null;
+        stmt = conn.createStatement();
+        stmt.executeUpdate(query);
+        //Liberamos los recursos de la comunicación   
+        stmt.close();
+    }
+
+    private void createTableNib(Connection conn) throws SQLException {
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+                + "name varchar(50) primary key,"
+                + "floraorfish varchar(20),"
+                + "civilization int);";
+        System.out.println(query);
+        Statement stmt = null;
+        stmt = conn.createStatement();
+        stmt.executeUpdate(query);
+        //Liberamos los recursos de la comunicación   
+        stmt.close();
+    }
+
+    private void createTableVul(Connection conn) throws SQLException {
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+                + "name varchar(50) primary key,"
+                + "meditation int,"
+                + "civilization int);";
+        System.out.println(query);
+        Statement stmt = null;
+        stmt = conn.createStatement();
+        stmt.executeUpdate(query);
+        //Liberamos los recursos de la comunicación   
+        stmt.close();
+    }
 
     public void disconnect(Connection conn) throws DAO_Excep {
         if (conn != null) {
@@ -128,119 +192,8 @@ public class DAOSQL {
             }
         }
     }
-//
-//    @Override
-//    public List<Student> readALL() throws DAO_Excep {
-//        List<Student> students = new ArrayList<>();
-//        Connection conn = null; //PARA ESTABLECER AL CONEXION
-//        Statement instruction = null; //PARA PREPARAR LA CONSULTA
-//        ResultSet rs = null;
-//        try {
-//            conn = connect(); //METODO CONEXION BBDD
-//            instruction = conn.createStatement();
-//            rs = instruction.executeQuery(SQL_SELECT_ALL);
-//            while (rs.next()) {
-//                int id = rs.getInt("id");
-//                String nombre = rs.getString("name");
-//                int edad = rs.getInt("age");
-//                students.add(new Student(id, nombre, edad));
-//            }
-//        } catch (SQLException ex) {
-//            //ex.printStackTrace(System.out);
-//            throw new Read_SQL_DAO_Excep("Can not read from database - readAll");
-//        } finally {
-//            try {
-//                rs.close();
-//                instruction.close();
-//                disconnect(conn);
-//            } catch (SQLException ex) {
-//                //ex.printStackTrace(System.out);
-//                throw new Read_SQL_DAO_Excep("Can not read from database - readAll");
-//            }
-//        }
-//        return students;
-//    }
-//
-//    /**
-//     * eSTE METODO LEE LOS DATOS SI ESTAN EN LA bbdd
-//     * Y si están, los añade a la arrayLis de Strudent
-//     * @param s
-//     * @return
-//     * @throws DAO_Excep 
-//     */
-//    @Override
-//    public List<Student> read(Student s) throws DAO_Excep {
-//        ArrayList<Student> students = new ArrayList<>();
-//        Student student = null;
-//        Connection conn = null;
-//        Statement instruction = null;
-//        ResultSet rs = null;
-//        try {
-//            conn = connect();
-//            String query = SQL_SELECT + "'" + s.getName() + "'" + ");";
-//            instruction = conn.createStatement();
-//            rs = instruction.executeQuery(query);
-//            while (rs.next()) { //LEE LA CADENA DE TEXTO Y VA COGIENDO PORPORCIONES EN EL ORDEN LOS INT, STRING..
-//                int id = rs.getInt("id");
-//                String nam = rs.getString("name");
-//                int age = rs.getInt("age");
-//                student = new Student(id, nam, age);
-//                students.add(student);
-//            }
-//        } catch (SQLException ex) {
-//            //ex.printStackTrace(System.out);
-//            throw new Read_SQL_DAO_Excep("Can not read from database (DAO_COntroller.DAOSQL.read)");
-//        } finally {
-//            try {
-//                rs.close();
-//                instruction.close();
-//                disconnect(conn);
-//            } catch (SQLException ex) {
-//                //ex.printStackTrace(System.out);
-//                throw new Read_SQL_DAO_Excep("Can not close database read process (DAO_COntroller.DAOSQL.read)");
-//            }
-//        }
-//        return students;
-//    }
-//
-//    @Override
-//    public List<Student> readByAge(Student s) throws DAO_Excep {
-//        ArrayList<Student> students = new ArrayList<>();
-//        Student student = null;
-//        Connection conn = null;
-//        Statement instruction = null;
-//        ResultSet rs = null;
-//        try {
-//            conn = connect();
-//            String query = SQL_SELECT2 + "'" + s.getAge() + "'" + ");";
-//            System.out.println(query);
-//            instruction = conn.createStatement();
-//            rs = instruction.executeQuery(query);
-//            while (rs.next()) {
-//                int id = rs.getInt("id");
-//                String nam = rs.getString("name");
-//                int age = rs.getInt("age");
-//                student = new Student(id, nam, age);
-//                students.add(student);
-//            }
-//        } catch (SQLException ex) {
-//            //ex.printStackTrace(System.out);
-//            throw new Read_SQL_DAO_Excep("Can not read from database (DAO_COntroller.DAOSQL.read)");
-//        } finally {
-//            try {
-//                rs.close();
-//                instruction.close();
-//                disconnect(conn);
-//            } catch (SQLException ex) {
-//                //ex.printStackTrace(System.out);
-//                throw new Read_SQL_DAO_Excep("Can not close database read process (DAO_COntroller.DAOSQL.read)");
-//            }
-//        }
-//        return students;
-//    }
-//
 
-    public int insert(Planeta planet) throws DAO_Excep {
+    public int insertpla(Planeta planet) throws DAO_Excep {
         Connection conn = null;
         //La clase PreparedStatement también permite ejecutar sentencias SQL
         //pero con mayor flexibilidad
@@ -252,8 +205,8 @@ public class DAOSQL {
         try {
             conn = connect();
             instruction = conn.prepareStatement(SQL_INSERT);
-            instruction.setString(1, planet.getGalaxy());
-            instruction.setString(2, planet.getName());
+            instruction.setString(1, planet.getName());
+            instruction.setString(2, planet.getGalaxy());
             instruction.setInt(3, planet.getPopulationMax());
             instruction.setString(4, planet.getClime());
             instruction.setBoolean(5, planet.isFlora());

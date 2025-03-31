@@ -109,11 +109,11 @@ public class Controlador {
      */
     public static void createplaneta(Planeta p) throws PlanetaExcepcion {
 
-        DAOSQL daoEst = new DAOSQL();
+        DAOSQL daoPla = new DAOSQL();
 
-        int registeredStudents;
+        int registeredPlanets;
         try {
-            registeredStudents = daoEst.insert(p);
+            registeredPlanets = daoPla.insertpla(p);
 
         } catch (DAO_Excep ex) {
             throw new PlanetaExcepcion(p.getName() + " has been registered.");
