@@ -6,8 +6,11 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
 import Model.*;
 import Excepcion.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -189,24 +192,34 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_crearplanetaActionPerformed
 
     private void crearciudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearciudadanoActionPerformed
-        if (allplanet.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay ningun planeta creado",
-                    "No existen planetas", JOptionPane.ERROR_MESSAGE);
-        } else {
-            CrearCiudadano crearciudadano = new CrearCiudadano(this, true);
-            crearciudadano.setLocationRelativeTo(null);
-            crearciudadano.setVisible(true);
+        DAOSQL d = new DAOSQL();
+        try {
+            if (d.obtainPlanets().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay ningun planeta creado",
+                        "No existen planetas", JOptionPane.ERROR_MESSAGE);
+            } else {
+                CrearCiudadano crearciudadano = new CrearCiudadano(this, true);
+                crearciudadano.setLocationRelativeTo(null);
+                crearciudadano.setVisible(true);
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_crearciudadanoActionPerformed
 
     private void bajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaActionPerformed
-        if (allplanet.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay ningun planeta creado",
-                    "No existen planetas", JOptionPane.ERROR_MESSAGE);
-        } else {
-            Baja baja = new Baja(this, true);
-            baja.setLocationRelativeTo(null);
-            baja.setVisible(true);
+        DAOSQL d = new DAOSQL();
+        try {
+            if (d.obtainPlanets().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay ningun planeta creado",
+                        "No existen planetas", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Baja baja = new Baja(this, true);
+                baja.setLocationRelativeTo(null);
+                baja.setVisible(true);
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bajaActionPerformed
 
