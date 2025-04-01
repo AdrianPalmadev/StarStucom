@@ -264,6 +264,8 @@ public class Menu extends javax.swing.JFrame {
         } catch (SerExcepcion ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),
                     "Ciudadanos No Registrado", JOptionPane.ERROR_MESSAGE);
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_inciarActionPerformed
 

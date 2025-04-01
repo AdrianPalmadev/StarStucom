@@ -224,12 +224,12 @@ public class Baja extends javax.swing.JDialog {
                 Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
             }
             info.setText("");
-            try {
-                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
-            } catch (DAO_Excep ex) {
-                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+//                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+//            } catch (DAO_Excep ex) {
+//                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
         ejecutaUsuario = true;
     }//GEN-LAST:event_filtroItemStateChanged
@@ -249,12 +249,12 @@ public class Baja extends javax.swing.JDialog {
             }
             if (filtro.getSelectedItem().toString().equals("Ciudadanos")) {
                 String nombre = nombreslista.getSelectedItem().toString();
-                try {
-                    info.setText(getSer(new Ser(nombre)).toString()
-                            + "\n" + getPlanetaSer(new Ser(nombre)));
-                } catch (DAO_Excep ex) {
-                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    info.setText(getSer(new Ser(nombre)).toString()
+//                            + "\n" + getPlanetaSer(new Ser(nombre)));
+//                } catch (DAO_Excep ex) {
+//                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+//                }
             }
         }
     }//GEN-LAST:event_nombreslistaItemStateChanged
@@ -287,18 +287,18 @@ public class Baja extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Baja dialog = new Baja(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                Baja dialog = new Baja(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -77,13 +77,32 @@ public class Controlador {
         return null;
     }
 
-    public static void createser(Object o, Planeta p) throws SerExcepcion {
+    public static void createser(Ser o, Planeta p) throws SerExcepcion, DAO_Excep {
+        DAOSQL d = new DAOSQL();
         if (o instanceof Andoriano) {
+            Andoriano a = (Andoriano) o;
+            p.getPopulation().add(o);
+            d.insertand(a);
         } else if (o instanceof Ferengi) {
+            Ferengi a = (Ferengi) o;
+            p.getPopulation().add(o);
+            d.insertfer(a);
         } else if (o instanceof Humano) {
+            Humano a = (Humano) o;
+            p.getPopulation().add(o);
+            d.inserthum(a);
         } else if (o instanceof Klingon) {
+            Klingon a = (Klingon) o;
+            p.getPopulation().add(o);
+            d.insertkli(a);
         } else if (o instanceof Nibiriano) {
+            Nibiriano a = (Nibiriano) o;
+            p.getPopulation().add(o);
+            d.insertnib(a);
         } else if (o instanceof Vulcaniano) {
+            Vulcaniano a = (Vulcaniano) o;
+            p.getPopulation().add(o);
+            d.insertvul(a);
         }
     }
 

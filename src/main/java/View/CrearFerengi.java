@@ -185,6 +185,8 @@ public class CrearFerengi extends javax.swing.JDialog {
                 } catch (SerExcepcion ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(),
                             "Ciudadano No Registrado", JOptionPane.ERROR_MESSAGE);
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(CrearFerengi.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {

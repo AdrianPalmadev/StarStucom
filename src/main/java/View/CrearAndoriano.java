@@ -207,6 +207,8 @@ public class CrearAndoriano extends javax.swing.JDialog {
                 } catch (SerExcepcion ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(),
                             "Ciudadano No Registrado", JOptionPane.ERROR_MESSAGE);
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(CrearAndoriano.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {

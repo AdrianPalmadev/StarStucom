@@ -214,6 +214,8 @@ public class CrearHumano extends javax.swing.JDialog {
                     nombreciudadano.setText(null);
                     JOptionPane.showMessageDialog(this, ex.getMessage(),
                             "Ciudadano No Registrado", JOptionPane.ERROR_MESSAGE);
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(CrearHumano.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {

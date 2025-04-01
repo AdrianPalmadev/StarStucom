@@ -41,8 +41,8 @@ public class Buscar extends javax.swing.JDialog {
             }
         }
         if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
-            info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                    + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+//            info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+//                    + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
         }
         ejecutaUsuario = true;
 
@@ -248,8 +248,8 @@ public class Buscar extends javax.swing.JDialog {
         }
         try {
             if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
-                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+//                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+//                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
             }
         } catch (DAO_Excep ex) {
             Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
@@ -262,12 +262,8 @@ public class Buscar extends javax.swing.JDialog {
 
         } else {
             info.setText("");
-            try {
-                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
-            } catch (DAO_Excep ex) {
-                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+//                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
         }
     }//GEN-LAST:event_nombreslistaItemStateChanged
 
@@ -299,18 +295,18 @@ public class Buscar extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Baja dialog = new Baja(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                Baja dialog = new Baja(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

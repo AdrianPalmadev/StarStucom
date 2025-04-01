@@ -186,6 +186,8 @@ public class CrearVulcaniano extends javax.swing.JDialog {
                 } catch (SerExcepcion ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(),
                             "Ciudadano No Registrado", JOptionPane.ERROR_MESSAGE);
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(CrearVulcaniano.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {
