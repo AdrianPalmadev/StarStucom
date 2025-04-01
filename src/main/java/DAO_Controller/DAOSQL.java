@@ -39,12 +39,12 @@ public class DAOSQL {
 
     // INSERTS
     private final String SQL_INSERT_PLA = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEpla + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
-    private final String SQL_INSERT_AND = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEand + " (name, rango, ice, civilization) VALUES (?, ?, ?, ?);";
-    private final String SQL_INSERT_HUM = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEhum + " (name, gender, age, civilization) VALUES (?, ?, ?, ?);";
-    private final String SQL_INSERT_FER = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEfer + " (name, gold, civilization) VALUES (?, ?, ?);";
-    private final String SQL_INSERT_KLI = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEkli + " (name, strength, civilization) VALUES (?, ?, ?);";
-    private final String SQL_INSERT_NIB = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEnib + " (name, floraorfish, civilization) VALUES (?, ?, ?);";
-    private final String SQL_INSERT_VUL = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEvul + " (name, meditation, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_AND = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEand + " (name, rango, ice, civilization, planeta) VALUES (?, ?, ?, ?, ?);";
+    private final String SQL_INSERT_HUM = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEhum + " (name, gender, age, civilization, planeta) VALUES (?, ?, ?, ?, ?);";
+    private final String SQL_INSERT_FER = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEfer + " (name, gold, civilization, planeta) VALUES (?, ?, ?, ?);";
+    private final String SQL_INSERT_KLI = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEkli + " (name, strength, civilization, planeta) VALUES (?, ?, ?, ?);";
+    private final String SQL_INSERT_NIB = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEnib + " (name, floraorfish, civilization, planeta) VALUES (?, ?, ?, ?);";
+    private final String SQL_INSERT_VUL = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEvul + " (name, meditation, civilization, planeta) VALUES (?, ?, ?, ?);";
 
     private final String SQL_UPDATE = "UPDATE " + JDBC_DDBB_TABLE + " SET age = ? WHERE (name = ?);";
     private final String SQL_DELETE = "DELETE FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
@@ -111,7 +111,8 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "rango varchar(15),"
                 + "ice boolean,"
-                + "civilization int);";
+                + "civilization int,"
+                + "planeta varchar(50));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -125,7 +126,8 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "gender varchar(15),"
                 + "age int,"
-                + "civilization int);";
+                + "civilization int,"
+                + "planeta varchar(50));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -138,7 +140,8 @@ public class DAOSQL {
         String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEfer + "("
                 + "name varchar(50) primary key,"
                 + "gold int,"
-                + "civilization int);";
+                + "civilization int,"
+                + "planeta varchar(50));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -151,7 +154,8 @@ public class DAOSQL {
         String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEkli + "("
                 + "name varchar(50) primary key,"
                 + "strength int,"
-                + "civilization int);";
+                + "civilization int,"
+                + "planeta varchar(50));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -164,7 +168,8 @@ public class DAOSQL {
         String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEnib + "("
                 + "name varchar(50) primary key,"
                 + "floraorfish varchar(20),"
-                + "civilization int);";
+                + "civilization int,"
+                + "planeta varchar(50));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -177,7 +182,8 @@ public class DAOSQL {
         String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEvul + "("
                 + "name varchar(50) primary key,"
                 + "meditation int,"
-                + "civilization int);";
+                + "civilization int,"
+                + "planeta varchar(50));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -219,7 +225,6 @@ public class DAOSQL {
             }
         } catch (SQLException ex) {
             throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
-
         } finally {
 
             try {
@@ -269,7 +274,7 @@ public class DAOSQL {
         return registers;
     }
 
-    public int inserthum(Humano h) throws DAO_Excep {
+    public int inserthum(Humano h, Planeta p) throws DAO_Excep {
         Connection conn = null;
         //La clase PreparedStatement también permite ejecutar sentencias SQL
         //pero con mayor flexibilidad
@@ -285,6 +290,7 @@ public class DAOSQL {
             instruction.setString(2, h.getGenero());
             instruction.setInt(3, h.getEdad());
             instruction.setInt(4, h.getCivilizationLevel());
+            instruction.setString(5, p.getName());
             //TODO meter resto campos
             registers = instruction.executeUpdate();
         } catch (SQLException ex) {
@@ -302,7 +308,7 @@ public class DAOSQL {
         return registers;
     }
 
-    public int insertand(Andoriano a) throws DAO_Excep {
+    public int insertand(Andoriano a, Planeta p) throws DAO_Excep {
         Connection conn = null;
         //La clase PreparedStatement también permite ejecutar sentencias SQL
         //pero con mayor flexibilidad
@@ -318,6 +324,7 @@ public class DAOSQL {
             instruction.setString(2, a.getRange());
             instruction.setBoolean(3, a.isIceAtThePoles());
             instruction.setInt(4, a.getCivilizationLevel());
+            instruction.setString(5, p.getName());
             //TODO meter resto campos
             registers = instruction.executeUpdate();
         } catch (SQLException ex) {
@@ -335,7 +342,7 @@ public class DAOSQL {
         return registers;
     }
 
-    public int insertfer(Ferengi f) throws DAO_Excep {
+    public int insertfer(Ferengi f, Planeta p) throws DAO_Excep {
         Connection conn = null;
         //La clase PreparedStatement también permite ejecutar sentencias SQL
         //pero con mayor flexibilidad
@@ -350,6 +357,7 @@ public class DAOSQL {
             instruction.setString(1, f.getName());
             instruction.setInt(2, f.getGold());
             instruction.setInt(3, f.getCivilizationLevel());
+            instruction.setString(4, p.getName());
             //TODO meter resto campos
             registers = instruction.executeUpdate();
         } catch (SQLException ex) {
@@ -367,7 +375,7 @@ public class DAOSQL {
         return registers;
     }
 
-    public int insertkli(Klingon k) throws DAO_Excep {
+    public int insertkli(Klingon k, Planeta p) throws DAO_Excep {
         Connection conn = null;
         //La clase PreparedStatement también permite ejecutar sentencias SQL
         //pero con mayor flexibilidad
@@ -382,6 +390,7 @@ public class DAOSQL {
             instruction.setString(1, k.getName());
             instruction.setInt(2, k.getForce());
             instruction.setInt(3, k.getCivilizationLevel());
+            instruction.setString(4, p.getName());
             //TODO meter resto campos
             registers = instruction.executeUpdate();
         } catch (SQLException ex) {
@@ -399,7 +408,7 @@ public class DAOSQL {
         return registers;
     }
 
-    public int insertnib(Nibiriano n) throws DAO_Excep {
+    public int insertnib(Nibiriano n, Planeta p) throws DAO_Excep {
         Connection conn = null;
         //La clase PreparedStatement también permite ejecutar sentencias SQL
         //pero con mayor flexibilidad
@@ -414,6 +423,7 @@ public class DAOSQL {
             instruction.setString(1, n.getName());
             instruction.setString(2, n.getFloraOrFish());
             instruction.setInt(3, n.getCivilizationLevel());
+            instruction.setString(4, p.getName());
             //TODO meter resto campos
             registers = instruction.executeUpdate();
         } catch (SQLException ex) {
@@ -431,7 +441,7 @@ public class DAOSQL {
         return registers;
     }
 
-    public int insertvul(Vulcaniano v) throws DAO_Excep {
+    public int insertvul(Vulcaniano v, Planeta p) throws DAO_Excep {
         Connection conn = null;
         //La clase PreparedStatement también permite ejecutar sentencias SQL
         //pero con mayor flexibilidad
@@ -446,6 +456,7 @@ public class DAOSQL {
             instruction.setString(1, v.getName());
             instruction.setInt(2, v.getMeditation());
             instruction.setInt(3, v.getCivilizationLevel());
+            instruction.setString(4, p.getName());
             //TODO meter resto campos
             registers = instruction.executeUpdate();
         } catch (SQLException ex) {

@@ -82,27 +82,27 @@ public class Controlador {
         if (o instanceof Andoriano) {
             Andoriano a = (Andoriano) o;
             p.getPopulation().add(o);
-            d.insertand(a);
+            d.insertand(a, p);
         } else if (o instanceof Ferengi) {
             Ferengi a = (Ferengi) o;
             p.getPopulation().add(o);
-            d.insertfer(a);
+            d.insertfer(a, p);
         } else if (o instanceof Humano) {
             Humano a = (Humano) o;
             p.getPopulation().add(o);
-            d.inserthum(a);
+            d.inserthum(a, p);
         } else if (o instanceof Klingon) {
             Klingon a = (Klingon) o;
             p.getPopulation().add(o);
-            d.insertkli(a);
+            d.insertkli(a, p);
         } else if (o instanceof Nibiriano) {
             Nibiriano a = (Nibiriano) o;
             p.getPopulation().add(o);
-            d.insertnib(a);
+            d.insertnib(a, p);
         } else if (o instanceof Vulcaniano) {
             Vulcaniano a = (Vulcaniano) o;
             p.getPopulation().add(o);
-            d.insertvul(a);
+            d.insertvul(a, p);
         }
     }
 
