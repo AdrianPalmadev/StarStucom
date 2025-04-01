@@ -201,7 +201,12 @@ public class ModificarAndoriano extends javax.swing.JDialog {
         boolean liveice = aenar.isSelected();
 
         //Conseguimos el HashCode de s mediante el nombre
-        Ser s = getSer(new Ser(name));
+        Ser s = null;
+        try {
+            s = getSer(new Ser(name));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarAndoriano.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //Creamos una variable Andoriano sh que equivale a Humano s
         Andoriano sa = (Andoriano) s;
         //Actualizamos la informacion

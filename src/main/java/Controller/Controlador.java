@@ -40,6 +40,31 @@ public class Controlador {
 
     }
 
+    public static Ser getSer(Ser s) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+
+        for (Planeta p : d.obtainPlanets()) {
+            for (Ser sp : p.getPopulation()) {
+                if (sp.equals(s)) {
+                    return sp;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean getCiudadano() throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        for (Planeta p : d.obtainPlanets()) {
+            for (Ser ser : p.getPopulation()) {
+                if (ser instanceof Ser) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static Planeta getPlanet(Planeta p) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
         if (d.obtainPlanets().contains(p)) {

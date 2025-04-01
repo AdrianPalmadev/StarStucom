@@ -8,17 +8,7 @@ package Controller;
  *
  * @author Adrián Palma
  */
-public class CODIGOCOMENTADO {
-//        public static boolean getCiudadano() {
-//        for (Planeta p : allplanet) {
-//            for (Ser ser : p.getPopulation()) {
-//                if (ser instanceof Ser) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }   
+public class CODIGOCOMENTADO { 
 //    public static Planeta getPlanetaSer(Ser s) {
 //
 //        for (Planeta p : allplanet) {
@@ -89,16 +79,6 @@ public class CODIGOCOMENTADO {
 //        } else {
 //            throw new SerExcepcion("[!] El planeta " + p.getName() + "a llegado a su capacidad máxima .");
 //        }
-//    }
-//    public static Ser getSer(Ser s) {
-//        for (Planeta p : allplanet) {
-//            for (Ser sp : p.getPopulation()) {
-//                if (sp.equals(s)) {
-//                    return sp;
-//                }
-//            }
-//        }
-//        return null;
 //    }
 //
 //    /**

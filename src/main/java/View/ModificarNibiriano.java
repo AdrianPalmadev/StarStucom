@@ -3,7 +3,11 @@ package View;
 import javax.swing.JOptionPane;
 
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModificarNibiriano extends javax.swing.JDialog {
 
@@ -165,7 +169,12 @@ public class ModificarNibiriano extends javax.swing.JDialog {
         String comida = (String) grupoalimenticio.getSelectedItem();
 
         //Conseguimos el hashcode mediante el nombre
-        Ser s = getSer(new Ser(name));
+        Ser s = null;
+        try {
+            s = getSer(new Ser(name));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarNibiriano.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Creamos una variable Nibiriano sn que equivale a Ser s
         Nibiriano sn = (Nibiriano) s;
@@ -186,9 +195,14 @@ public class ModificarNibiriano extends javax.swing.JDialog {
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
+        DAOSQL d = new DAOSQL();
         nombreplaneta.removeAllItems();
-        for (Planeta p : allplanet) {
-            nombreplaneta.addItem(p.getName());
+        try {
+            for (Planeta p : d.obtainPlanets()) {
+                nombreplaneta.addItem(p.getName());
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowGainedFocus
 

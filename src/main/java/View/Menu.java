@@ -175,13 +175,17 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        if (getCiudadano()) {
-            BuscarModificar modificar = new BuscarModificar(this, true);
-            modificar.setLocationRelativeTo(null);
-            modificar.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay ningun ciudadano creado",
-                    "No existen ciudadanos", JOptionPane.ERROR_MESSAGE);
+        try {
+            if (getCiudadano()) {
+                BuscarModificar modificar = new BuscarModificar(this, true);
+                modificar.setLocationRelativeTo(null);
+                modificar.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay ningun ciudadano creado",
+                        "No existen ciudadanos", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_modificarActionPerformed
 
@@ -224,13 +228,17 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_bajaActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        if (getCiudadano()) {
-            Buscar buscar = new Buscar(this, true);
-            buscar.setLocationRelativeTo(null);
-            buscar.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay ningun ciudadano creado",
-                    "No existen ciudadanos", JOptionPane.ERROR_MESSAGE);
+        try {
+            if (getCiudadano()) {
+                Buscar buscar = new Buscar(this, true);
+                buscar.setLocationRelativeTo(null);
+                buscar.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay ningun ciudadano creado",
+                        "No existen ciudadanos", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_buscarActionPerformed
 

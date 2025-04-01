@@ -5,7 +5,11 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModificarHumano extends javax.swing.JDialog {
 
@@ -15,8 +19,9 @@ public class ModificarHumano extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public ModificarHumano(javax.swing.JDialog parent, boolean modal, Humano c) {
+    public ModificarHumano(javax.swing.JDialog parent, boolean modal, Humano c) throws DAO_Excep {
         super(parent, modal);
+        DAOSQL d = new DAOSQL();
 
         initComponents();
         setLocationRelativeTo(null);
@@ -32,7 +37,7 @@ public class ModificarHumano extends javax.swing.JDialog {
         edadhumano.setValue(sh.getEdad());
         generohumano.setSelectedItem(sh.getGenero());
 
-        for (Planeta p : allplanet) {
+        for (Planeta p : d.obtainPlanets()) {
             for (Ser sp : p.getPopulation()) {
                 if (p.getPopulation().equals(c)) {
                     nombreplaneta.addItem(p.getName());
@@ -210,7 +215,12 @@ public class ModificarHumano extends javax.swing.JDialog {
         int edad = (int) edadhumano.getValue();
 
         //Conseguimos el HashCode de s mediante el nombre
-        Ser s = getSer(new Ser(name));
+        Ser s = null;
+        try {
+            s = getSer(new Ser(name));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //Creamos una variable Humano sh que equivale a Ser s
         Humano sh = (Humano) s;
 
@@ -230,22 +240,32 @@ public class ModificarHumano extends javax.swing.JDialog {
      */
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
-        Ser s = getSer(new Ser(nombreciudadano.getText()));
+        DAOSQL d = new DAOSQL();
+        Ser s = null;
+        try {
+            s = getSer(new Ser(nombreciudadano.getText()));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Humano sh = (Humano) s;
 
-        for (Planeta p : allplanet) {
-            for (Ser sp : p.getPopulation()) {
-                if (p.getPopulation().equals(sh)) {
-                    nombreplaneta.addItem(p.getName());
-                    System.out.println(p.getName());
+        try {
+            for (Planeta p : d.obtainPlanets()) {
+                for (Ser sp : p.getPopulation()) {
+                    if (p.getPopulation().equals(sh)) {
+                        nombreplaneta.addItem(p.getName());
+                        System.out.println(p.getName());
+                    }
                 }
             }
-        }
 
 //        nombreplaneta.removeAllItems();
 //        for (Planeta p : allplanet) {
 //            nombreplaneta.addItem(p.getName());
 //        }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowGainedFocus
 
     //===============================================================================================//

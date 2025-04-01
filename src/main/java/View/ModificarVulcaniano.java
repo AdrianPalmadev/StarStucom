@@ -5,7 +5,11 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModificarVulcaniano extends javax.swing.JDialog {
 
@@ -165,14 +169,18 @@ public class ModificarVulcaniano extends javax.swing.JDialog {
         int meditacion = (int) nivelmeditacion.getValue();
 
         //Conseguimos el HashCode de s mediante el nombre
-        Ser s = getSer(new Ser(name));
+        Ser s = null;
+        try {
+            s = getSer(new Ser(name));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarVulcaniano.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Creamos una variable Humano sh que equivale a Humano s
         Vulcaniano sh = (Vulcaniano) s;
 
 //        Actualizamos la informacion
         sh.setMeditation(meditacion);
-
 
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);
@@ -187,9 +195,14 @@ public class ModificarVulcaniano extends javax.swing.JDialog {
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
+        DAOSQL d = new DAOSQL();
         nombreplaneta.removeAllItems();
-        for (Planeta p : allplanet) {
-            nombreplaneta.addItem(p.getName());
+        try {
+            for (Planeta p : d.obtainPlanets()) {
+                nombreplaneta.addItem(p.getName());
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowGainedFocus
 
