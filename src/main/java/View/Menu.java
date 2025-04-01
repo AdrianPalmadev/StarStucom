@@ -3,7 +3,7 @@ package View;
 //NETBEANS
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-    
+
 //PROYECTO
 import static Controller.Controlador.*;
 import Model.*;

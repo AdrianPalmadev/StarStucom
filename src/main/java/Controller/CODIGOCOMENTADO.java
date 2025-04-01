@@ -9,17 +9,6 @@ package Controller;
  * @author Adrián Palma
  */
 public class CODIGOCOMENTADO {
-    //    public static Planeta getPlanet(Planeta p) {
-//        if (allplanet.contains(p)) {
-//            for (Planeta ps : allplanet) {
-//                if (ps.equals(p)) {
-//                    return ps;
-//                }
-//            }
-//        }
-//        return null;
-//    }
-//    
 //        public static boolean getCiudadano() {
 //        for (Planeta p : allplanet) {
 //            for (Ser ser : p.getPopulation()) {

@@ -3,6 +3,7 @@ package Controller;
 //------------------------------------------------
 // NETBEANS
 import DAO_Controller.DAOSQL;
+import static DAO_Controller.DAOSQL.*;
 import java.util.HashSet;
 
 // PROYECTO
@@ -39,7 +40,19 @@ public class Controlador {
 
     }
 
-    public static void createser(Object o) {
+    public static Planeta getPlanet(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        if (d.obtainPlanets().contains(p)) {
+            for (Planeta ps : d.obtainPlanets()) {
+                if (ps.equals(p)) {
+                    return ps;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void createser(Object o, Planeta p) throws SerExcepcion {
         if (o instanceof Andoriano) {
         } else if (o instanceof Ferengi) {
         } else if (o instanceof Humano) {

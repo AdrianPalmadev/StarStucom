@@ -1,13 +1,15 @@
 package View;
 
-
 //NETBEANS
 import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
-import Excepcion.SerExcepcion;
+import Excepcion.*;
 import Model.*;
+import DAO_Controller.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CrearFerengi extends javax.swing.JDialog {
 
@@ -155,11 +157,16 @@ public class CrearFerengi extends javax.swing.JDialog {
      */
     private void crearhumanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearhumanoActionPerformed
         String name = nombreciudadano.getText();
+        Planeta p = null;
         int caoro = (int) oro.getValue();
         String planeta = (String) nombreplaneta.getSelectedItem();
 
         //Creacion de objeto Planeta y Ser
-        Planeta p = getPlanet(new Planeta(planeta));
+        try {
+            p = getPlanet(new Planeta(planeta));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearFerengi.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Ser s = new Ferengi(caoro, name);
 
         if (!(name.isEmpty())) {
@@ -196,9 +203,14 @@ public class CrearFerengi extends javax.swing.JDialog {
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
+        DAOSQL d = new DAOSQL();
         nombreplaneta.removeAllItems();
-        for (Planeta p : allplanet) {
-            nombreplaneta.addItem(p.getName());
+        try {
+            for (Planeta p : d.obtainPlanets()) {
+                nombreplaneta.addItem(p.getName());
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowGainedFocus
 

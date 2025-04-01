@@ -29,9 +29,7 @@ public class DAOSQL {
     private final String JDBC_DDBB_TABLE = JDBC_DDBB + "." + JDBC_TABLE;
 
     // SELECTS
-    private final String SQL_SELECT_ALL = "SELECT * FROM " + JDBC_DDBB_TABLE + ";";
-    private final String SQL_SELECT = "SELECT * FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
-    private final String SQL_SELECT2 = "SELECT * FROM " + JDBC_DDBB_TABLE + " WHERE (age = ";
+    private final String SQL_SELECT_NamePLA = "SELECT name FROM " + JDBC_DDBB_TABLE + ";";
 
     // INSERTS
     private final String SQL_INSERT_PLA = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
@@ -189,6 +187,37 @@ public class DAOSQL {
             } catch (SQLException ex) {
                 throw new DAO_Excep("Can not disconnect from database " + JDBC_DDBB);
             }
+        }
+    }
+
+    public ArrayList<Planeta> obtainPlanets() throws DAO_Excep {
+        ArrayList<String> name = new ArrayList<>();
+        ArrayList<Planeta> planets = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_NamePLA);
+
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+
+        } finally {
+            String n;
+            for (int i = 0; i < name.size(); i++) {
+                n = name.get(i);
+                Planeta p = new Planeta(n);
+                planets.add(p);
+            }
+            try {
+                instruction.close();
+                disconnect(conn);
+                return planets;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
         }
     }
 

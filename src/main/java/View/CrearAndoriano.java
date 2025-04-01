@@ -9,8 +9,12 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Excepcion.SerExcepcion;
 import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -181,7 +185,12 @@ public class CrearAndoriano extends javax.swing.JDialog {
         boolean liveice = aenar.isSelected();
         String planeta = (String) nombreplaneta.getSelectedItem();
 
-        Planeta p = getPlanet(new Planeta(planeta));
+        Planeta p = null;
+        try {
+            p = getPlanet(new Planeta(planeta));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearAndoriano.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Ser s = new Andoriano(range, liveice, name);
 
         if (!(name.isEmpty())) {
@@ -214,9 +223,14 @@ public class CrearAndoriano extends javax.swing.JDialog {
      */
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
+        DAOSQL d = new DAOSQL();
         nombreplaneta.removeAllItems();
-        for (Planeta p : allplanet) {
-            nombreplaneta.addItem(p.getName());
+        try {
+            for (Planeta p : d.obtainPlanets()) {
+                nombreplaneta.addItem(p.getName());
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowGainedFocus
     //===============================================================================================//

@@ -5,8 +5,12 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Excepcion.SerExcepcion;
 import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CrearHumano extends javax.swing.JDialog {
 
@@ -19,12 +23,17 @@ public class CrearHumano extends javax.swing.JDialog {
     public CrearHumano(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
+        DAOSQL d = new DAOSQL();
         nombreplaneta.removeAllItems();
-        for (Planeta p : allplanet) {
-            nombreplaneta.addItem(p.getName());
+        try {
+            for (Planeta p : d.obtainPlanets()) {
+                nombreplaneta.addItem(p.getName());
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         setLocationRelativeTo(null);
         setResizable(false);
     }
@@ -173,12 +182,17 @@ public class CrearHumano extends javax.swing.JDialog {
      */
     private void crearhumanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearhumanoActionPerformed
         String name = nombreciudadano.getText();
+        Planeta p = null;
         int edad = (int) edadhumano.getValue();
         String genero = (String) generohumano.getSelectedItem();
         String planeta = (String) nombreplaneta.getSelectedItem();
         //Creacion de objeto y Ser conseguir HashSet Planeta
-        Planeta p = getPlanet(new Planeta(planeta));
-        
+        try {
+            p = getPlanet(new Planeta(planeta));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(CrearHumano.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         //Si el nombre NO esta vacio ejecuta lo que esta dentro del IF
         if (!(name.isEmpty())) {
             //Si el nombre es más pequeño o igual a 3 muestra el siguiente mensaje
@@ -212,7 +226,6 @@ public class CrearHumano extends javax.swing.JDialog {
     //===============================================================================================//
     //||                                                                                           ||//
     //===============================================================================================//
-
 
     /**
      * @param args the command line arguments
