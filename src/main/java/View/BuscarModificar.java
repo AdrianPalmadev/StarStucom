@@ -2,7 +2,11 @@ package View;
 
 import static Controller.Controlador.allplanet;
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,10 +17,11 @@ public class BuscarModificar extends javax.swing.JDialog {
     /**
      * Creates new form Modificar
      */
-    public BuscarModificar(javax.swing.JFrame parent, boolean modal) {
+    public BuscarModificar(javax.swing.JFrame parent, boolean modal) throws DAO_Excep {
         super(parent, modal);
+        DAOSQL d = new DAOSQL();
         initComponents();
-        for (Planeta planeta : allplanet) {
+        for (Planeta planeta : d.obtainPlanets()) {
             for (Ser ser : planeta.getPopulation()) {
                 nombresserlista.addItem(ser.getName());
             }
@@ -119,7 +124,12 @@ public class BuscarModificar extends javax.swing.JDialog {
     private void buscarciudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarciudadanoActionPerformed
 
         String nombre = (String) nombresserlista.getSelectedItem();
-        Ser s = getSer(new Ser(nombre));
+        Ser s = null;
+        try {
+            s = getSer(new Ser(nombre));
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(BuscarModificar.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (s instanceof Vulcaniano) {
             ModificarVulcaniano mdfvul = new ModificarVulcaniano(this, true, new Vulcaniano((String) nombresserlista.getSelectedItem()));

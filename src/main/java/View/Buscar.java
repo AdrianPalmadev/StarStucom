@@ -5,8 +5,11 @@
 package View;
 
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Model.*;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,19 +18,21 @@ import Model.*;
 public class Buscar extends javax.swing.JDialog {
 
     boolean ejecutaUsuario = false;
+
     /**
      * Creates new form Baja
      */
-    public Buscar(javax.swing.JFrame parent, boolean modal) {
+    public Buscar(javax.swing.JFrame parent, boolean modal) throws DAO_Excep {
         super(parent, modal);
+        DAOSQL d = new DAOSQL();
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
-        
+
         nombreslista.removeAllItems();
         info.setText("");
         if (filtro.getSelectedItem().toString().equals("Humano")) {
-            for (Planeta p : allplanet) {
+            for (Planeta p : d.obtainPlanets()) {
                 for (Ser s : p.getPopulation()) {
                     if (s instanceof Humano) {
                         nombreslista.addItem(s.getName());
@@ -35,11 +40,12 @@ public class Buscar extends javax.swing.JDialog {
                 }
             }
         }
-        if(getSer(new Ser((String)nombreslista.getSelectedItem())) != null)
-            info.setText(getSer(new Ser((String)nombreslista.getSelectedItem())).toString() + 
-                    "\n" + getPlanetaSer(new Ser((String)nombreslista.getSelectedItem())));
+        if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
+            info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                    + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+        }
         ejecutaUsuario = true;
-       
+
     }
 
     /**
@@ -163,61 +169,91 @@ public class Buscar extends javax.swing.JDialog {
     private void filtroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_filtroItemStateChanged
         ejecutaUsuario = false;
         // TODO add your handling code here:
+        DAOSQL d = new DAOSQL();
         nombreslista.removeAllItems();
         info.setText("");
         if (filtro.getSelectedItem().toString().equals("Humano")) {
-            for (Planeta p : allplanet) {
-                for (Ser s : p.getPopulation()) {
-                    if (s instanceof Humano) {
-                        nombreslista.addItem(s.getName());
+            try {
+                for (Planeta p : d.obtainPlanets()) {
+                    for (Ser s : p.getPopulation()) {
+                        if (s instanceof Humano) {
+                            nombreslista.addItem(s.getName());
+                        }
                     }
                 }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (filtro.getSelectedItem().toString().equals("Andoriano")) {
-            for (Planeta p : allplanet) {
-                for (Ser s : p.getPopulation()) {
-                    if (s instanceof Andoriano) {
-                        nombreslista.addItem(s.getName());
+            try {
+                for (Planeta p : d.obtainPlanets()) {
+                    for (Ser s : p.getPopulation()) {
+                        if (s instanceof Andoriano) {
+                            nombreslista.addItem(s.getName());
+                        }
                     }
                 }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (filtro.getSelectedItem().toString().equals("Ferengi")) {
-            for (Planeta p : allplanet) {
-                for (Ser s : p.getPopulation()) {
-                    if (s instanceof Ferengi) {
-                        nombreslista.addItem(s.getName());
+            try {
+                for (Planeta p : d.obtainPlanets()) {
+                    for (Ser s : p.getPopulation()) {
+                        if (s instanceof Ferengi) {
+                            nombreslista.addItem(s.getName());
+                        }
                     }
                 }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (filtro.getSelectedItem().toString().equals("Klingon")) {
-            for (Planeta p : allplanet) {
-                for (Ser s : p.getPopulation()) {
-                    if (s instanceof Klingon) {
-                        nombreslista.addItem(s.getName());
+            try {
+                for (Planeta p : d.obtainPlanets()) {
+                    for (Ser s : p.getPopulation()) {
+                        if (s instanceof Klingon) {
+                            nombreslista.addItem(s.getName());
+                        }
                     }
                 }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (filtro.getSelectedItem().toString().equals("Nibiriano")) {
-            for (Planeta p : allplanet) {
-                for (Ser s : p.getPopulation()) {
-                    if (s instanceof Nibiriano) {
-                        nombreslista.addItem(s.getName());
+            try {
+                for (Planeta p : d.obtainPlanets()) {
+                    for (Ser s : p.getPopulation()) {
+                        if (s instanceof Nibiriano) {
+                            nombreslista.addItem(s.getName());
+                        }
                     }
                 }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (filtro.getSelectedItem().toString().equals("Vulcaniano")) {
             nombreslista.removeAllItems();
-            for (Planeta p : allplanet) {
-                for (Ser s : p.getPopulation()) {
-                    if (s instanceof Vulcaniano) {
-                        nombreslista.addItem(s.getName());
+            try {
+                for (Planeta p : d.obtainPlanets()) {
+                    for (Ser s : p.getPopulation()) {
+                        if (s instanceof Vulcaniano) {
+                            nombreslista.addItem(s.getName());
+                        }
                     }
                 }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if(getSer(new Ser((String)nombreslista.getSelectedItem())) != null)
-            info.setText(getSer(new Ser((String)nombreslista.getSelectedItem())).toString() + 
-                    "\n" + getPlanetaSer(new Ser((String)nombreslista.getSelectedItem())));
+        try {
+            if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
+                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+            }
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ejecutaUsuario = true;
     }//GEN-LAST:event_filtroItemStateChanged
 
@@ -226,8 +262,12 @@ public class Buscar extends javax.swing.JDialog {
 
         } else {
             info.setText("");
-            info.setText(getSer(new Ser((String)nombreslista.getSelectedItem())).toString() + 
-                    "\n" + getPlanetaSer(new Ser((String)nombreslista.getSelectedItem())));
+            try {
+                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_nombreslistaItemStateChanged
 

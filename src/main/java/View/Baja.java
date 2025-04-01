@@ -9,7 +9,11 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
+import DAO_Controller.DAOSQL;
+import Excepcion.DAO_Excep;
 import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,13 +26,14 @@ public class Baja extends javax.swing.JDialog {
     /**
      * Creates new form Baja
      */
-    public Baja(javax.swing.JFrame parent, boolean modal) {
+    public Baja(javax.swing.JFrame parent, boolean modal) throws DAO_Excep {
         super(parent, modal);
+        DAOSQL d = new DAOSQL();
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         //Por defecto carga los planetas
-        for (Planeta planeta : allplanet) {
+        for (Planeta planeta : d.obtainPlanets()) {
             nombreslista.addItem(planeta.getName());
         }
         String nombre = (String) nombreslista.getSelectedItem();
@@ -149,22 +154,41 @@ public class Baja extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void eliminarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButtonActionPerformed
-        // TODO add your handling code here:        
+        // TODO add your handling code here: 
+        DAOSQL d = new DAOSQL();
         int resultadoConfirmacion = JOptionPane.showConfirmDialog(this, "¿Deseas eliminar el ciudadano"
                 + " / planeta seleccionado?", "Eliminar", JOptionPane.INFORMATION_MESSAGE);
         if (resultadoConfirmacion == 0) {
             String nombre = (String) nombreslista.getSelectedItem();
             if (filtro.getSelectedItem().equals("Planetas")) {
-                Planeta p = getPlanet(new Planeta(nombre));
-                allplanet.remove(p);
+                Planeta p = null;
+                try {
+                    p = getPlanet(new Planeta(nombre));
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    d.obtainPlanets().remove(p);
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 dispose();
             } else if (filtro.getSelectedItem().equals("Ciudadanos")) {
-                Ser s = getSer(new Ser(nombre));
-                for (Planeta p : allplanet) {
-                    if (p.getPopulation().contains(s)) {
-                        p.getPopulation().remove(s);
-                        dispose();
-                    } 
+                Ser s = null;
+                try {
+                    s = getSer(new Ser(nombre));
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    for (Planeta p : d.obtainPlanets()) {
+                        if (p.getPopulation().contains(s)) {
+                            p.getPopulation().remove(s);
+                            dispose();
+                        }
+                    }
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -172,23 +196,40 @@ public class Baja extends javax.swing.JDialog {
 
     private void filtroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_filtroItemStateChanged
         ejecutaUsuario = false;
+        DAOSQL d = new DAOSQL();
         nombreslista.removeAllItems();
         if (filtro.getSelectedItem().toString().equals("Planetas")) {
-            for (Planeta planeta : allplanet) {
-                nombreslista.addItem(planeta.getName());
+            try {
+                for (Planeta planeta : d.obtainPlanets()) {
+                    nombreslista.addItem(planeta.getName());
+                }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
             }
             info.setText("");
-            info.setText(getPlanet(new Planeta((String)nombreslista.getSelectedItem())).toString());
+            try {
+                info.setText(getPlanet(new Planeta((String) nombreslista.getSelectedItem())).toString());
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (filtro.getSelectedItem().toString().equals("Ciudadanos")) {
-            for (Planeta planeta : allplanet) {
-                for (Ser s : planeta.getPopulation()) {
-                    nombreslista.addItem(s.getName());
+            try {
+                for (Planeta planeta : d.obtainPlanets()) {
+                    for (Ser s : planeta.getPopulation()) {
+                        nombreslista.addItem(s.getName());
+                    }
                 }
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
             }
             info.setText("");
-            info.setText(getSer(new Ser((String)nombreslista.getSelectedItem())).toString() +
-            "\n" + getPlanetaSer(new Ser((String)nombreslista.getSelectedItem())));
+            try {
+                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         ejecutaUsuario = true;
     }//GEN-LAST:event_filtroItemStateChanged
@@ -200,12 +241,20 @@ public class Baja extends javax.swing.JDialog {
             info.setText("");
             if (filtro.getSelectedItem().toString().equals("Planetas")) {
                 String nombre = nombreslista.getSelectedItem().toString();
-                info.setText(getPlanet(new Planeta(nombre)).toString());
+                try {
+                    info.setText(getPlanet(new Planeta(nombre)).toString());
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (filtro.getSelectedItem().toString().equals("Ciudadanos")) {
                 String nombre = nombreslista.getSelectedItem().toString();
-                info.setText(getSer(new Ser(nombre)).toString()+ 
-                        "\n" + getPlanetaSer(new Ser(nombre)));
+                try {
+                    info.setText(getSer(new Ser(nombre)).toString()
+                            + "\n" + getPlanetaSer(new Ser(nombre)));
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_nombreslistaItemStateChanged
