@@ -13,7 +13,7 @@ public class Planeta extends Object {
 //Variable de instancia (v.i)
 //-------------------------------------
     protected String name; //será lo que lo haga único
-    protected ArrayList<Ser> population;
+    protected ArrayList<Ser> population = new ArrayList<>();
     protected String galaxy; //la galaxia a la que pertenece
     protected int populationMax; //máximo de población por planeta
     protected String clime; //el tipo de clima que puede ser frío, cálido o templado

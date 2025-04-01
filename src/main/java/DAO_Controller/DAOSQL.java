@@ -25,20 +25,26 @@ public class DAOSQL {
 
     //Especificamos la base de Datos
     private final String JDBC_DDBB = "startstucom";
-    private final String JDBC_TABLE = "planet";
-    private final String JDBC_DDBB_TABLE = JDBC_DDBB + "." + JDBC_TABLE;
+    private final String JDBC_TABLEpla = "planet";
+    private final String JDBC_TABLEand = "andoriano";
+    private final String JDBC_TABLEhum = "humano";
+    private final String JDBC_TABLEfer = "ferengi";
+    private final String JDBC_TABLEkli = "klingon";
+    private final String JDBC_TABLEnib = "nibiriano";
+    private final String JDBC_TABLEvul = "vulcaniano";
+    private final String JDBC_DDBB_TABLE = JDBC_DDBB + "." + JDBC_TABLEpla;
 
     // SELECTS
     private final String SQL_SELECT_NamePLA = "SELECT * FROM " + JDBC_DDBB_TABLE + ";";
 
     // INSERTS
-    private final String SQL_INSERT_PLA = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
-    private final String SQL_INSERT_AND = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, range, ice, civilization) VALUES (?, ?, ?, ?);";
-    private final String SQL_INSERT_HUM = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, gender, age, civilization) VALUES (?, ?, ?, ?);";
-    private final String SQL_INSERT_FER = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, gold, civilization) VALUES (?, ?, ?);";
-    private final String SQL_INSERT_KLI = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, force, civilization) VALUES (?, ?, ?);";
-    private final String SQL_INSERT_NIB = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, floraorfish, civilization) VALUES (?, ?, ?);";
-    private final String SQL_INSERT_VUL = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLE + " (name, meditation, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_PLA = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEpla + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
+    private final String SQL_INSERT_AND = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEand + " (name, rango, ice, civilization) VALUES (?, ?, ?, ?);";
+    private final String SQL_INSERT_HUM = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEhum + " (name, gender, age, civilization) VALUES (?, ?, ?, ?);";
+    private final String SQL_INSERT_FER = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEfer + " (name, gold, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_KLI = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEkli + " (name, strength, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_NIB = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEnib + " (name, floraorfish, civilization) VALUES (?, ?, ?);";
+    private final String SQL_INSERT_VUL = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEvul + " (name, meditation, civilization) VALUES (?, ?, ?);";
 
     private final String SQL_UPDATE = "UPDATE " + JDBC_DDBB_TABLE + " SET age = ? WHERE (name = ?);";
     private final String SQL_DELETE = "DELETE FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
@@ -85,7 +91,7 @@ public class DAOSQL {
     }
 
     private void createTablePla(Connection conn) throws SQLException {
-        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEpla + "("
                 + "name varchar(50) primary key,"
                 + "galaxy varchar(50),"
                 + "MaxPopulation int,"
@@ -101,9 +107,9 @@ public class DAOSQL {
     }
 
     private void createTableAnd(Connection conn) throws SQLException {
-        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEand + "("
                 + "name varchar(50) primary key,"
-                + "range varchar(15),"
+                + "rango varchar(15),"
                 + "ice boolean,"
                 + "civilization int);";
         System.out.println(query);
@@ -115,7 +121,7 @@ public class DAOSQL {
     }
 
     private void createTableHum(Connection conn) throws SQLException {
-        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEhum + "("
                 + "name varchar(50) primary key,"
                 + "gender varchar(15),"
                 + "age int,"
@@ -129,7 +135,7 @@ public class DAOSQL {
     }
 
     private void createTableFer(Connection conn) throws SQLException {
-        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEfer + "("
                 + "name varchar(50) primary key,"
                 + "gold int,"
                 + "civilization int);";
@@ -142,9 +148,9 @@ public class DAOSQL {
     }
 
     private void createTableKli(Connection conn) throws SQLException {
-        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEkli + "("
                 + "name varchar(50) primary key,"
-                + "force int,"
+                + "strength int,"
                 + "civilization int);";
         System.out.println(query);
         Statement stmt = null;
@@ -155,7 +161,7 @@ public class DAOSQL {
     }
 
     private void createTableNib(Connection conn) throws SQLException {
-        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEnib + "("
                 + "name varchar(50) primary key,"
                 + "floraorfish varchar(20),"
                 + "civilization int);";
@@ -168,7 +174,7 @@ public class DAOSQL {
     }
 
     private void createTableVul(Connection conn) throws SQLException {
-        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLE + "("
+        String query = "create table if not exists " + JDBC_DDBB + "." + JDBC_TABLEvul + "("
                 + "name varchar(50) primary key,"
                 + "meditation int,"
                 + "civilization int);";
