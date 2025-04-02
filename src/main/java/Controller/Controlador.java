@@ -133,6 +133,18 @@ public class Controlador {
         }
     }
 
+    public static Planeta getPlanetaSer(Ser s) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        for (Planeta p : d.obtainPlanets()) {
+            for (Ser sp : p.getPopulation()) {
+                if (sp.equals(s)) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
     public static Planeta getPlanet(Planeta p) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
         if (d.obtainPlanets().contains(p)) {

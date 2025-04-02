@@ -33,9 +33,21 @@ public class DAOSQL {
     private final String JDBC_TABLEnib = "nibiriano";
     private final String JDBC_TABLEvul = "vulcaniano";
     private final String JDBC_DDBB_TABLE = JDBC_DDBB + "." + JDBC_TABLEpla;
+    private final String JDBC_DDBB_TABLEand = JDBC_DDBB + "." + JDBC_TABLEand;
+    private final String JDBC_DDBB_TABLEhum = JDBC_DDBB + "." + JDBC_TABLEhum;
+    private final String JDBC_DDBB_TABLEfer = JDBC_DDBB + "." + JDBC_TABLEfer;
+    private final String JDBC_DDBB_TABLEkli = JDBC_DDBB + "." + JDBC_TABLEkli;
+    private final String JDBC_DDBB_TABLEnib = JDBC_DDBB + "." + JDBC_TABLEnib;
+    private final String JDBC_DDBB_TABLEvul = JDBC_DDBB + "." + JDBC_TABLEvul;
 
     // SELECTS
-    private final String SQL_SELECT_NamePLA = "SELECT * FROM " + JDBC_DDBB_TABLE + ";";
+    private final String SQL_SELECT_PLA = "SELECT * FROM " + JDBC_DDBB_TABLE + ";";
+    private final String SQL_SELECT_AND = "SELECT * FROM " + JDBC_DDBB_TABLEand + ";";
+    private final String SQL_SELECT_HUM = "SELECT * FROM " + JDBC_DDBB_TABLEhum + ";";
+    private final String SQL_SELECT_FER = "SELECT * FROM " + JDBC_DDBB_TABLEfer + ";";
+    private final String SQL_SELECT_KLI = "SELECT * FROM " + JDBC_DDBB_TABLEkli + ";";
+    private final String SQL_SELECT_NIB = "SELECT * FROM " + JDBC_DDBB_TABLEnib + ";";
+    private final String SQL_SELECT_VUL = "SELECT * FROM " + JDBC_DDBB_TABLEvul + ";";
 
     // INSERTS
     private final String SQL_INSERT_PLA = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEpla + " (name, galaxy, MaxPopulation, clime, flora, aquatic) VALUES (?, ?, ?, ?, ?, ?);";
@@ -112,7 +124,8 @@ public class DAOSQL {
                 + "rango varchar(15),"
                 + "ice boolean,"
                 + "civilization int,"
-                + "planeta varchar(50));";
+                + "planeta varchar(50),"
+                + "foreign key (planeta) references planeta(name));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -127,7 +140,8 @@ public class DAOSQL {
                 + "gender varchar(15),"
                 + "age int,"
                 + "civilization int,"
-                + "planeta varchar(50));";
+                + "planeta varchar(50),"
+                + "foreign key (planeta) references planeta(name));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -141,7 +155,8 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "gold int,"
                 + "civilization int,"
-                + "planeta varchar(50));";
+                + "planeta varchar(50),"
+                + "foreign key (planeta) references planeta(name));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -155,7 +170,8 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "strength int,"
                 + "civilization int,"
-                + "planeta varchar(50));";
+                + "planeta varchar(50),"
+                + "foreign key (planeta) references planeta(name));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -169,7 +185,8 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "floraorfish varchar(20),"
                 + "civilization int,"
-                + "planeta varchar(50));";
+                + "planeta varchar(50),"
+                + "foreign key (planeta) references planeta(name));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -183,7 +200,8 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "meditation int,"
                 + "civilization int,"
-                + "planeta varchar(50));";
+                + "planeta varchar(50),"
+                + "foreign key (planeta) references planeta(name));";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -211,7 +229,7 @@ public class DAOSQL {
 
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_SELECT_NamePLA);
+            instruction = conn.prepareStatement(SQL_SELECT_PLA);
             rs = instruction.executeQuery();
             while (rs.next()) {
                 String name = rs.getString("name");
@@ -231,6 +249,36 @@ public class DAOSQL {
                 instruction.close();
                 disconnect(conn);
                 return planets;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
+
+    public ArrayList<Klingon> obtainKlingon() throws DAO_Excep {
+        ArrayList<Klingon> seres = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        Klingon s = null;
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_KLI);
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+
+            }
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return seres;
             } catch (SQLException ex) {
                 //ex.printStackTrace(System.out);
                 throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");

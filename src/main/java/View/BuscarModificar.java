@@ -151,9 +151,14 @@ public class BuscarModificar extends javax.swing.JDialog {
             mdffe.setLocationRelativeTo(null);
             mdffe.setVisible(true);
         } else if (s instanceof Humano) {
-//            ModificarHumano modificarhumano = new ModificarHumano(this, true, new Humano((String) nombresserlista.getSelectedItem()));
-//            modificarhumano.setLocationRelativeTo(null);
-//            modificarhumano.setVisible(true);
+            ModificarHumano modificarhumano = null;
+            try {
+                modificarhumano = new ModificarHumano(this, true, new Humano((String) nombresserlista.getSelectedItem()));
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(BuscarModificar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            modificarhumano.setLocationRelativeTo(null);
+            modificarhumano.setVisible(true);
         }
     }//GEN-LAST:event_buscarciudadanoActionPerformed
 
@@ -186,18 +191,23 @@ public class BuscarModificar extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                BuscarModificar dialog = new BuscarModificar(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                BuscarModificar dialog = null;
+                try {
+                    dialog = new BuscarModificar(new javax.swing.JFrame(), true);
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(BuscarModificar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

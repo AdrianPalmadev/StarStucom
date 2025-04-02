@@ -224,12 +224,12 @@ public class Baja extends javax.swing.JDialog {
                 Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
             }
             info.setText("");
-//            try {
-//                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-//                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
-//            } catch (DAO_Excep ex) {
-//                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+            try {
+                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+            } catch (DAO_Excep ex) {
+                Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         ejecutaUsuario = true;
     }//GEN-LAST:event_filtroItemStateChanged
