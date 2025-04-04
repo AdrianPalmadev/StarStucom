@@ -23,6 +23,15 @@ public class Ferengi extends Ser {
         super(name);
     }
 
+    public Ferengi(int gold, String name, Planeta p) {
+        super(name, p);
+        this.gold = gold;
+    }
+
+    public Ferengi(String name, Planeta p) {
+        super(name, p);
+    }
+
 //-------------------------------------
 //Variable de clase (v.c)
 //-------------------------------------

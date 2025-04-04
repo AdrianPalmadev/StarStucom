@@ -65,7 +65,6 @@ public class ModificarAndoriano extends javax.swing.JDialog {
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText(" Nombre: ");
         jLabel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, new java.awt.Color(51, 51, 51)));
         jLabel1.setOpaque(true);
@@ -89,7 +88,6 @@ public class ModificarAndoriano extends javax.swing.JDialog {
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText(" Aenar: ");
         jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, new java.awt.Color(102, 102, 102)));
         jLabel2.setOpaque(true);
@@ -109,7 +107,6 @@ public class ModificarAndoriano extends javax.swing.JDialog {
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText(" Rango: ");
         jLabel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, new java.awt.Color(102, 102, 102)));
         jLabel3.setOpaque(true);
@@ -132,7 +129,6 @@ public class ModificarAndoriano extends javax.swing.JDialog {
         getContentPane().add(rango, gridBagConstraints);
 
         crearandoriano.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        crearandoriano.setForeground(new java.awt.Color(0, 0, 0));
         crearandoriano.setText("Modificar andoriano");
         crearandoriano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,7 +144,6 @@ public class ModificarAndoriano extends javax.swing.JDialog {
         getContentPane().add(crearandoriano, gridBagConstraints);
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText(" Reside: ");
         jLabel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, new java.awt.Color(102, 102, 102)));
         jLabel4.setOpaque(true);

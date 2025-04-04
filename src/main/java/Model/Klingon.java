@@ -23,6 +23,15 @@ public class Klingon extends Ser {
         super(name);
     }
 
+    public Klingon(int force, String name, Planeta p) {
+        super(name, p);
+        this.force = force;
+    }
+
+    public Klingon(String name, Planeta p) {
+        super(name, p);
+    }
+
 //-------------------------------------
 //Variable de clase (v.c)
 //-------------------------------------

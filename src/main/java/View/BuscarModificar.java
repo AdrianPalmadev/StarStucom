@@ -20,10 +20,8 @@ public class BuscarModificar extends javax.swing.JDialog {
         super(parent, modal);
         DAOSQL d = new DAOSQL();
         initComponents();
-        for (Planeta planeta : d.obtainPlanets()) {
-            for (Ser ser : planeta.getPopulation()) {
-                nombresserlista.addItem(ser.getName());
-            }
+        for (Ser ser : d.obtainSeres()) {
+            nombresserlista.addItem(ser.getName());
         }
     }
 
@@ -54,7 +52,6 @@ public class BuscarModificar extends javax.swing.JDialog {
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText(" Nombre: ");
         jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, new java.awt.Color(102, 102, 102)));
         jLabel2.setOpaque(true);

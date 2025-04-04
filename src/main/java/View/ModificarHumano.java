@@ -37,15 +37,14 @@ public class ModificarHumano extends javax.swing.JDialog {
         edadhumano.setValue(sh.getEdad());
         generohumano.setSelectedItem(sh.getGenero());
 
-        for (Planeta p : d.obtainPlanets()) {
-            for (Ser sp : p.getPopulation()) {
-                if (p.getPopulation().equals(c)) {
-                    nombreplaneta.addItem(p.getName());
-                    System.out.println(p.getName());
-                }
-            }
-        }
-
+//        for (Planeta p : d.obtainPlanets()) {
+//            for (Ser sp : p.getPopulation()) {
+//                if (p.getPopulation().equals(c)) {
+//                    nombreplaneta.addItem(p.getName());
+//                    System.out.println(p.getName());
+//                }
+//            }
+//        }
     }
 
     /**
@@ -248,14 +247,13 @@ public class ModificarHumano extends javax.swing.JDialog {
             Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
         }
         Humano sh = (Humano) s;
+        Planeta p = null;
 
         try {
-            for (Planeta p : d.obtainPlanets()) {
-                for (Ser sp : p.getPopulation()) {
-                    if (p.getPopulation().equals(sh)) {
-                        nombreplaneta.addItem(p.getName());
-                        System.out.println(p.getName());
-                    }
+            for (Ser sp : d.obtainSeres()) {
+                if (d.obtainPlanets().equals(sh.getPlanet())) {
+                    nombreplaneta.addItem(p.getName());
+                    System.out.println(p.getName());
                 }
             }
 

@@ -4,11 +4,10 @@ package Controller;
 // NETBEANS
 import DAO_Controller.DAOSQL;
 import static DAO_Controller.DAOSQL.*;
-import java.util.HashSet;
-
 // PROYECTO
 import Model.*;
 import Excepcion.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,11 +42,9 @@ public class Controlador {
     public static Ser getSer(Ser s) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
 
-        for (Planeta p : d.obtainPlanets()) {
-            for (Ser sp : p.getPopulation()) {
-                if (sp.equals(s)) {
-                    return sp;
-                }
+        for (Ser sp : d.obtainSeres()) {
+            if (sp.equals(s)) {
+                return sp;
             }
         }
         return null;
@@ -55,11 +52,9 @@ public class Controlador {
 
     public static boolean getCiudadano() throws DAO_Excep {
         DAOSQL d = new DAOSQL();
-        for (Planeta p : d.obtainPlanets()) {
-            for (Ser ser : p.getPopulation()) {
-                if (ser instanceof Ser) {
-                    return true;
-                }
+        for (Ser ser : d.obtainSeres()) {
+            if (ser instanceof Ser) {
+                return true;
             }
         }
         return false;
@@ -68,26 +63,29 @@ public class Controlador {
     public static Object noRepeatNombreSer(Ser s) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
 
-        for (Planeta p : d.obtainPlanets()) {
-            if (p.getName().contains(s.getName())) {
-                return p;
-            } else {
-                for (Ser sp : p.getPopulation()) {
-                    if (sp.equals(s)) {
-                        return s;
-                    }
-                }
+        for (Ser w : d.obtainSeres()) {
+            if (s.getName().equals(w.getName())) {
+                return w;
             }
         }
         return null;
     }
 
     public static void getValidPlanet(Ser s, Planeta p) throws SerExcepcion, DAO_Excep {
-        if (p.getPopulation().size() < p.getPopulationMax()) {
+        DAOSQL d = new DAOSQL();
+
+        ArrayList<Ser> as = new ArrayList<Ser>();
+
+        for (Ser s1 : d.obtainSeres()) {
+            if (s1.getPlanet().equals(p)) {
+                as.add(s1);
+            }
+        }
+        if (as.size() < p.getPopulationMax()) {
             if (noRepeatNombreSer(s) == null) {
 //                Si s es Specie Andoriano
                 if (s instanceof Vulcaniano) {
-                    for (Ser existente : p.getPopulation()) {
+                    for (Ser existente : as) {
                         //coincide en el mismo lugar que un vulcaniano
                         if (existente instanceof Andoriano) {
                             throw new SerExcepcion(" En el " + p.getName() + " existe un Andoriano");
@@ -95,7 +93,7 @@ public class Controlador {
                     }
 //        Si s es tipo Andoriano
                 } else if (s instanceof Andoriano) {
-                    for (Ser existente : p.getPopulation()) {
+                    for (Ser existente : as) {
                         //coincide en el mismo lugar que un vulcaniano
                         if (existente instanceof Vulcaniano) {
                             throw new SerExcepcion(" En el " + p.getName() + " existe un Vulcaniano");
@@ -136,7 +134,7 @@ public class Controlador {
     public static Planeta getPlanetaSer(Ser s) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
         for (Planeta p : d.obtainPlanets()) {
-            for (Ser sp : p.getPopulation()) {
+            for (Ser sp : d.obtainSeres()) {
                 if (sp.equals(s)) {
                     return p;
                 }
@@ -160,30 +158,21 @@ public class Controlador {
     public static void createser(Ser o, Planeta p) throws SerExcepcion, DAO_Excep {
         DAOSQL d = new DAOSQL();
         getValidPlanet(o, p);
-        if (o instanceof Andoriano) {
-            Andoriano a = (Andoriano) o;
-            p.getPopulation().add(o);
-            d.insertand(a, p);
-        } else if (o instanceof Ferengi) {
-            Ferengi a = (Ferengi) o;
-            p.getPopulation().add(o);
-            d.insertfer(a, p);
-        } else if (o instanceof Humano) {
-            Humano a = (Humano) o;
-            p.getPopulation().add(o);
-            d.inserthum(a, p);
-        } else if (o instanceof Klingon) {
-            Klingon a = (Klingon) o;
-            p.getPopulation().add(o);
-            d.insertkli(a, p);
-        } else if (o instanceof Nibiriano) {
-            Nibiriano a = (Nibiriano) o;
-            p.getPopulation().add(o);
-            d.insertnib(a, p);
-        } else if (o instanceof Vulcaniano) {
-            Vulcaniano a = (Vulcaniano) o;
-            p.getPopulation().add(o);
-            d.insertvul(a, p);
+        switch (o) {
+            case Andoriano a ->
+                d.insertand(a, p);
+            case Ferengi a ->
+                d.insertfer(a, p);
+            case Humano a ->
+                d.inserthum(a, p);
+            case Klingon a ->
+                d.insertkli(a, p);
+            case Nibiriano a ->
+                d.insertnib(a, p);
+            case Vulcaniano a ->
+                d.insertvul(a, p);
+            default -> {
+            }
         }
     }
 

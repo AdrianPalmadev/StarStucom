@@ -13,7 +13,6 @@ public class Planeta extends Object {
 //Variable de instancia (v.i)
 //-------------------------------------
     protected String name; //será lo que lo haga único
-    protected ArrayList<Ser> population = new ArrayList<>();
     protected String galaxy; //la galaxia a la que pertenece
     protected int populationMax; //máximo de población por planeta
     protected String clime; //el tipo de clima que puede ser frío, cálido o templado
@@ -67,10 +66,6 @@ public class Planeta extends Object {
         return aquatic;
     }
 
-    public ArrayList<Ser> getPopulation() {
-        return population;
-    }
-
 //SETTER:
     //haremos que se pueda modificar todo, excepto
     //"name" que es único para cada planeta
@@ -94,9 +89,6 @@ public class Planeta extends Object {
         this.aquatic = aquatic;
     }
 
-    public void setPopulation(ArrayList<Ser> population) {
-        this.population = population;
-    }
 
 //-------------------------------------
 //OVERRIDE

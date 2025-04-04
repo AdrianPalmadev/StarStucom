@@ -27,6 +27,17 @@ public class Andoriano extends Ser {
 
     }
 
+    public Andoriano(String range, boolean iceAtThePoles, String name, Planeta p) {
+        super(name, p);
+        this.range = range;
+        this.iceAtThePoles = iceAtThePoles;
+    }
+
+    public Andoriano(String name, Planeta p) {
+        super(name, p);
+
+    }
+
 //-------------------------------------
 //Variable de clase (v.c)
 //-------------------------------------

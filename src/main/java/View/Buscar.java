@@ -32,11 +32,9 @@ public class Buscar extends javax.swing.JDialog {
         nombreslista.removeAllItems();
         info.setText("");
         if (filtro.getSelectedItem().toString().equals("Humano")) {
-            for (Planeta p : d.obtainPlanets()) {
-                for (Ser s : p.getPopulation()) {
-                    if (s instanceof Humano) {
-                        nombreslista.addItem(s.getName());
-                    }
+            for (Ser s : d.obtainSeres()) {
+                if (s instanceof Humano) {
+                    nombreslista.addItem(s.getName());
                 }
             }
         }
@@ -174,11 +172,9 @@ public class Buscar extends javax.swing.JDialog {
         info.setText("");
         if (filtro.getSelectedItem().toString().equals("Humano")) {
             try {
-                for (Planeta p : d.obtainPlanets()) {
-                    for (Ser s : p.getPopulation()) {
-                        if (s instanceof Humano) {
-                            nombreslista.addItem(s.getName());
-                        }
+                for (Ser s : d.obtainSeres()) {
+                    if (s instanceof Humano) {
+                        nombreslista.addItem(s.getName());
                     }
                 }
             } catch (DAO_Excep ex) {
@@ -186,11 +182,9 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Andoriano")) {
             try {
-                for (Planeta p : d.obtainPlanets()) {
-                    for (Ser s : p.getPopulation()) {
-                        if (s instanceof Andoriano) {
-                            nombreslista.addItem(s.getName());
-                        }
+                for (Ser s : d.obtainSeres()) {
+                    if (s instanceof Andoriano) {
+                        nombreslista.addItem(s.getName());
                     }
                 }
             } catch (DAO_Excep ex) {
@@ -198,11 +192,9 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Ferengi")) {
             try {
-                for (Planeta p : d.obtainPlanets()) {
-                    for (Ser s : p.getPopulation()) {
-                        if (s instanceof Ferengi) {
-                            nombreslista.addItem(s.getName());
-                        }
+                for (Ser s : d.obtainSeres()) {
+                    if (s instanceof Ferengi) {
+                        nombreslista.addItem(s.getName());
                     }
                 }
             } catch (DAO_Excep ex) {
@@ -210,11 +202,9 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Klingon")) {
             try {
-                for (Planeta p : d.obtainPlanets()) {
-                    for (Ser s : p.getPopulation()) {
-                        if (s instanceof Klingon) {
-                            nombreslista.addItem(s.getName());
-                        }
+                for (Ser s : d.obtainSeres()) {
+                    if (s instanceof Klingon) {
+                        nombreslista.addItem(s.getName());
                     }
                 }
             } catch (DAO_Excep ex) {
@@ -222,11 +212,9 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Nibiriano")) {
             try {
-                for (Planeta p : d.obtainPlanets()) {
-                    for (Ser s : p.getPopulation()) {
-                        if (s instanceof Nibiriano) {
-                            nombreslista.addItem(s.getName());
-                        }
+                for (Ser s : d.obtainSeres()) {
+                    if (s instanceof Nibiriano) {
+                        nombreslista.addItem(s.getName());
                     }
                 }
             } catch (DAO_Excep ex) {
@@ -235,11 +223,9 @@ public class Buscar extends javax.swing.JDialog {
         } else if (filtro.getSelectedItem().toString().equals("Vulcaniano")) {
             nombreslista.removeAllItems();
             try {
-                for (Planeta p : d.obtainPlanets()) {
-                    for (Ser s : p.getPopulation()) {
-                        if (s instanceof Vulcaniano) {
-                            nombreslista.addItem(s.getName());
-                        }
+                for (Ser s : d.obtainSeres()) {
+                    if (s instanceof Vulcaniano) {
+                        nombreslista.addItem(s.getName());
                     }
                 }
             } catch (DAO_Excep ex) {

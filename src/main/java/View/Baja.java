@@ -180,16 +180,16 @@ public class Baja extends javax.swing.JDialog {
                 } catch (DAO_Excep ex) {
                     Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                try {
-                    for (Planeta p : d.obtainPlanets()) {
-                        if (p.getPopulation().contains(s)) {
-                            p.getPopulation().remove(s);
-                            dispose();
-                        }
-                    }
-                } catch (DAO_Excep ex) {
-                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    for (Planeta p : d.obtainPlanets()) {
+//                        if (p.getPopulation().contains(s)) {
+//                            p.getPopulation().remove(s);
+//                            dispose();
+//                        }
+//                    }
+//                } catch (DAO_Excep ex) {
+//                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+//                }
             }
         }
     }//GEN-LAST:event_eliminarButtonActionPerformed
@@ -215,10 +215,8 @@ public class Baja extends javax.swing.JDialog {
         }
         if (filtro.getSelectedItem().toString().equals("Ciudadanos")) {
             try {
-                for (Planeta planeta : d.obtainPlanets()) {
-                    for (Ser s : planeta.getPopulation()) {
-                        nombreslista.addItem(s.getName());
-                    }
+                for (Ser s : d.obtainSeres()) {
+                    nombreslista.addItem(s.getName());
                 }
             } catch (DAO_Excep ex) {
                 Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);

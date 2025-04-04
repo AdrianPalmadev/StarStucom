@@ -32,7 +32,7 @@ public class DAOSQL {
     private final String JDBC_TABLEkli = "klingon";
     private final String JDBC_TABLEnib = "nibiriano";
     private final String JDBC_TABLEvul = "vulcaniano";
-    private final String JDBC_DDBB_TABLE = JDBC_DDBB + "." + JDBC_TABLEpla;
+    private final String JDBC_DDBB_TABLEpla = JDBC_DDBB + "." + JDBC_TABLEpla;
     private final String JDBC_DDBB_TABLEand = JDBC_DDBB + "." + JDBC_TABLEand;
     private final String JDBC_DDBB_TABLEhum = JDBC_DDBB + "." + JDBC_TABLEhum;
     private final String JDBC_DDBB_TABLEfer = JDBC_DDBB + "." + JDBC_TABLEfer;
@@ -41,7 +41,7 @@ public class DAOSQL {
     private final String JDBC_DDBB_TABLEvul = JDBC_DDBB + "." + JDBC_TABLEvul;
 
     // SELECTS
-    private final String SQL_SELECT_PLA = "SELECT * FROM " + JDBC_DDBB_TABLE + ";";
+    private final String SQL_SELECT_PLA = "SELECT * FROM " + JDBC_DDBB_TABLEpla + ";";
     private final String SQL_SELECT_AND = "SELECT * FROM " + JDBC_DDBB_TABLEand + ";";
     private final String SQL_SELECT_HUM = "SELECT * FROM " + JDBC_DDBB_TABLEhum + ";";
     private final String SQL_SELECT_FER = "SELECT * FROM " + JDBC_DDBB_TABLEfer + ";";
@@ -58,11 +58,12 @@ public class DAOSQL {
     private final String SQL_INSERT_NIB = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEnib + " (name, floraorfish, civilization, planeta) VALUES (?, ?, ?, ?);";
     private final String SQL_INSERT_VUL = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEvul + " (name, meditation, civilization, planeta) VALUES (?, ?, ?, ?);";
 
-    private final String SQL_UPDATE = "UPDATE " + JDBC_DDBB_TABLE + " SET age = ? WHERE (name = ?);";
-    private final String SQL_DELETE = "DELETE FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
-    private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
-    private final String SQL_RESET_AGES = "UPDATE " + JDBC_DDBB_TABLE + " SET age = 0 WHERE (name = ?);";
+    //UPDATES
+    private final String SQL_UPDATE_HUM = "UPDATE " + JDBC_DDBB_TABLEhum + " SET gender = ?, age = ? WHERE (name = ?);";
 
+//    private final String SQL_DELETE = "DELETE FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
+//    private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
+//    private final String SQL_RESET_AGES = "UPDATE " + JDBC_DDBB_TABLE + " SET age = 0 WHERE (name = ?);";
     public DAOSQL() {
     }
 
@@ -124,8 +125,9 @@ public class DAOSQL {
                 + "rango varchar(15),"
                 + "ice boolean,"
                 + "civilization int,"
-                + "planeta varchar(50),"
-                + "foreign key (planeta) references planeta(name));";
+                + "planeta VARCHAR(50),"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + ");";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -140,8 +142,9 @@ public class DAOSQL {
                 + "gender varchar(15),"
                 + "age int,"
                 + "civilization int,"
-                + "planeta varchar(50),"
-                + "foreign key (planeta) references planeta(name));";
+                + "planeta VARCHAR(50),"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + ");";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -155,8 +158,9 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "gold int,"
                 + "civilization int,"
-                + "planeta varchar(50),"
-                + "foreign key (planeta) references planeta(name));";
+                + "planeta VARCHAR(50),"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + ");";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -170,8 +174,9 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "strength int,"
                 + "civilization int,"
-                + "planeta varchar(50),"
-                + "foreign key (planeta) references planeta(name));";
+                + "planeta VARCHAR(50),"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + ");";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -185,8 +190,9 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "floraorfish varchar(20),"
                 + "civilization int,"
-                + "planeta varchar(50),"
-                + "foreign key (planeta) references planeta(name));";
+                + "planeta VARCHAR(50),"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + ");";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -200,8 +206,9 @@ public class DAOSQL {
                 + "name varchar(50) primary key,"
                 + "meditation int,"
                 + "civilization int,"
-                + "planeta varchar(50),"
-                + "foreign key (planeta) references planeta(name));";
+                + "planeta VARCHAR(50),"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + ");";
         System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -257,34 +264,49 @@ public class DAOSQL {
         }
     }
 
-    public ArrayList<Klingon> obtainKlingon() throws DAO_Excep {
-        ArrayList<Klingon> seres = new ArrayList<>();
+    public ArrayList<Ser> obtainSeres() throws DAO_Excep {
+        ArrayList<Ser> ser = new ArrayList<>();
         Connection conn = null;
         PreparedStatement instruction = null;
         ResultSet rs = null;
-        Klingon s = null;
+        Ser s = null;
+        Humano h = null;
+        Planeta p = null;
 
         try {
             conn = connect();
-            instruction = conn.prepareStatement(SQL_SELECT_KLI);
+            instruction = conn.prepareStatement(SQL_SELECT_HUM);
             rs = instruction.executeQuery();
             while (rs.next()) {
+                String name = rs.getString("name");
+                String gender = rs.getString("gender");
+                int age = rs.getInt("age");
+                String planet = rs.getString("planeta");
 
+                for (Planeta planeta : obtainPlanets()) {
+                    if (planeta.getName().equals(planet)) {
+                        p = planeta;
+                        break;
+                    }
+                }
+
+                h = new Humano(age, gender, name, p);
+
+                ser.add(h);
             }
         } catch (SQLException ex) {
             throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
-        } finally {
-
-            try {
-                instruction.close();
-                disconnect(conn);
-                return seres;
-            } catch (SQLException ex) {
-                //ex.printStackTrace(System.out);
-                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
-            }
-
         }
+
+        try {
+            instruction.close();
+            disconnect(conn);
+            return ser;
+        } catch (SQLException ex) {
+            //ex.printStackTrace(System.out);
+            throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+        }
+
     }
 
     public int insertpla(Planeta planet) throws DAO_Excep {

@@ -24,6 +24,16 @@ public class Vulcaniano extends Ser {
         super(name);
     }
 
+    public Vulcaniano(int meditation, String name, Planeta p) {
+        super(name, p);
+        this.meditation = meditation;
+        //civilizationLevel;
+    }
+
+    public Vulcaniano(String name, Planeta p) {
+        super(name, p);
+    }
+
 //-------------------------------------
 //Variable de clase (v.c)
 //-------------------------------------

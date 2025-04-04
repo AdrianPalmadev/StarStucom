@@ -41,6 +41,16 @@ public class Nibiriano extends Ser {
 
     }
 
+    public Nibiriano(String floraOrFish, String name, Planeta p) {
+        super(name, p);
+        this.floraOrFish = floraOrFish;
+    }
+
+    public Nibiriano(String name, Planeta p) {
+        super(name, p);
+
+    }
+
 //-------------------------------------
 //Variable de clase (v.c)
 //-------------------------------------

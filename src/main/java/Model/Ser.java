@@ -8,10 +8,16 @@ public class Ser extends Object {
 //Variable de instancia (v.i)
 //-------------------------------------
     final protected String name; //será lo que lo haga único
+    protected Planeta planet;
 
 //-------------------------------------
 //Sobrecarga de constructores:
 //-------------------------------------
+    public Ser(String name, Planeta planet) {
+        this.name = name;
+        this.planet = planet;
+    }
+
     public Ser(String name) {
         this.name = name;
     }
@@ -22,6 +28,10 @@ public class Ser extends Object {
 //GETTER:
     public String getName() {
         return name;
+    }
+
+    public Planeta getPlanet() {
+        return planet;
     }
 
 //-------------------------------------

@@ -25,6 +25,16 @@ public class Humano extends Ser {
         super(name);
     }
 
+    public Humano(int edad, String genero, String name, Planeta p) {
+        super(name, p);
+        this.edad = edad;
+        this.genero = genero;
+    }
+
+    public Humano(String name, Planeta p) {
+        super(name, p);
+    }
+
 //-------------------------------------
 //Variable de clase (v.c)
 //-------------------------------------
