@@ -176,4 +176,36 @@ public class Controlador {
         }
     }
 
+    public static void deleteser(Ser o) throws SerExcepcion, DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        switch (o) {
+            case Andoriano a ->
+                d.deleteand(a);
+            case Ferengi a ->
+                d.deletefer(a);
+            case Humano a ->
+                d.deletehum(a);
+            case Klingon a ->
+                d.deletekli(a);
+            case Nibiriano a ->
+                d.deletenib(a);
+            case Vulcaniano a ->
+                d.deletevul(a);
+            default -> {
+            }
+        }
+    }
+
+    public static void deleteplaneta(Planeta p) throws PlanetaExcepcion, DAO_Excep, SerExcepcion {
+        DAOSQL d = new DAOSQL();
+        ArrayList<Ser> as = new ArrayList<Ser>();
+
+        for (Ser s1 : d.obtainSeres()) {
+            if (s1.getPlanet().equals(p)) {
+                deleteser(s1);
+            }
+        }
+        d.deletepla(p);
+    }
+
 }

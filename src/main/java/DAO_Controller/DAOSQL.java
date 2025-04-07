@@ -67,7 +67,15 @@ public class DAOSQL {
     private final String SQL_UPDATE_VUL = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEvul + " SET meditation = ? WHERE (name = ?);";
 
     //DELETES
-//    private final String SQL_DELETE = "DELETE FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
+// DELETES
+    private final String SQL_DELETE_PLA = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEpla + " WHERE (name = ?);";
+    private final String SQL_DELETE_AND = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEand + " WHERE (name = ?);";
+    private final String SQL_DELETE_HUM = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEhum + " WHERE (name = ?);";
+    private final String SQL_DELETE_FER = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEfer + " WHERE (name = ?);";
+    private final String SQL_DELETE_KLI = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEkli + " WHERE (name = ?);";
+    private final String SQL_DELETE_NIB = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEnib + " WHERE (name = ?);";
+    private final String SQL_DELETE_VUL = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEvul + " WHERE (name = ?);";
+
 //    private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
 //    private final String SQL_RESET_AGES = "UPDATE " + JDBC_DDBB_TABLE + " SET age = 0 WHERE (name = ?);";
     public DAOSQL() {
@@ -803,6 +811,166 @@ public class DAOSQL {
                 disconnect(conn);
             } catch (SQLException ex) {
                 throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.updateVUL)");
+            }
+        }
+        return registers;
+    }
+
+    public int deletepla(Planeta p) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruccion = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruccion = conn.prepareStatement(SQL_DELETE_PLA);
+            //cada vez que modificamos una base de datos llamamos a executeUpdate()
+            instruccion.setString(1, p.getName());
+            registers = instruccion.executeUpdate();
+        } catch (SQLException ex) {
+            //ex.printStackTrace(System.out);
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.delete)");
+
+        } finally {
+            try {
+                instruccion.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.delete)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados
+        return registers;
+    }
+
+    public int deletefer(Ferengi f) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruccion = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruccion = conn.prepareStatement(SQL_DELETE_FER);
+            instruccion.setString(1, f.getName());
+            registers = instruccion.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.delete)");
+        } finally {
+            try {
+                instruccion.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.delete)");
+            }
+        }
+        return registers;
+    }
+
+    public int deleteand(Andoriano a) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruccion = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruccion = conn.prepareStatement(SQL_DELETE_AND);
+            instruccion.setString(1, a.getName());
+            registers = instruccion.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.deleteAND)");
+        } finally {
+            try {
+                instruccion.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.deleteAND)");
+            }
+        }
+        return registers;
+    }
+
+    public int deletehum(Humano h) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruccion = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruccion = conn.prepareStatement(SQL_DELETE_HUM);
+            instruccion.setString(1, h.getName());
+            registers = instruccion.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.deleteHUM)");
+        } finally {
+            try {
+                instruccion.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.deleteHUM)");
+            }
+        }
+        return registers;
+    }
+
+    public int deletekli(Klingon k) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruccion = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruccion = conn.prepareStatement(SQL_DELETE_KLI);
+            instruccion.setString(1, k.getName());
+            registers = instruccion.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.deleteKLI)");
+        } finally {
+            try {
+                instruccion.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.deleteKLI)");
+            }
+        }
+        return registers;
+    }
+
+    public int deletenib(Nibiriano n) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruccion = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruccion = conn.prepareStatement(SQL_DELETE_NIB);
+            instruccion.setString(1, n.getName());
+            registers = instruccion.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.deleteNIB)");
+        } finally {
+            try {
+                instruccion.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.deleteNIB)");
+            }
+        }
+        return registers;
+    }
+
+    public int deletevul(Vulcaniano v) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruccion = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruccion = conn.prepareStatement(SQL_DELETE_VUL);
+            instruccion.setString(1, v.getName());
+            registers = instruccion.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.deleteVUL)");
+        } finally {
+            try {
+                instruccion.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.deleteVUL)");
             }
         }
         return registers;

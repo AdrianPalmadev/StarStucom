@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import static Controller.Controlador.*;
 import DAO_Controller.DAOSQL;
 import Excepcion.DAO_Excep;
+import Excepcion.SerExcepcion;
 import Model.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -168,7 +169,8 @@ public class Baja extends javax.swing.JDialog {
                     Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 try {
-                    d.obtainPlanets().remove(p);
+                    d.deletepla(p);
+                    dispose();
                 } catch (DAO_Excep ex) {
                     Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -180,16 +182,16 @@ public class Baja extends javax.swing.JDialog {
                 } catch (DAO_Excep ex) {
                     Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
                 }
-//                try {
-//                    for (Planeta p : d.obtainPlanets()) {
-//                        if (p.getPopulation().contains(s)) {
-//                            p.getPopulation().remove(s);
-//                            dispose();
-//                        }
-//                    }
-//                } catch (DAO_Excep ex) {
-//                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+
+                try {
+                    deleteser(s);
+                    dispose();
+                } catch (SerExcepcion ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         }
     }//GEN-LAST:event_eliminarButtonActionPerformed
@@ -247,12 +249,12 @@ public class Baja extends javax.swing.JDialog {
             }
             if (filtro.getSelectedItem().toString().equals("Ciudadanos")) {
                 String nombre = nombreslista.getSelectedItem().toString();
-//                try {
-//                    info.setText(getSer(new Ser(nombre)).toString()
-//                            + "\n" + getPlanetaSer(new Ser(nombre)));
-//                } catch (DAO_Excep ex) {
-//                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    info.setText(getSer(new Ser(nombre)).toString()
+                            + "\n" + getPlanetaSer(new Ser(nombre)));
+                } catch (DAO_Excep ex) {
+                    Logger.getLogger(Baja.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_nombreslistaItemStateChanged
