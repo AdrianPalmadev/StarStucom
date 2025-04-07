@@ -206,6 +206,8 @@ public class ModificarHumano extends javax.swing.JDialog {
     private void modificarhumanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarhumanoActionPerformed
         // TODO add your handling code here:
 
+        DAOSQL d = new DAOSQL();
+
         //Variables de las propiedades de Humano
         String name = nombreciudadano.getText();
 
@@ -223,9 +225,12 @@ public class ModificarHumano extends javax.swing.JDialog {
         //Creamos una variable Humano sh que equivale a Ser s
         Humano sh = (Humano) s;
 
-        //Actualizamos la informacion
-        sh.setEdad(edad);
-        sh.setGenero(genero);
+        try {
+            //Actualizamos la informacion
+            d.modificarhum(genero, edad, name);
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);

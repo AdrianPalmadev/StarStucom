@@ -111,7 +111,6 @@ public class DAOSQL {
                 + "clime varchar(10),"
                 + "flora boolean,"
                 + "aquatic boolean);";
-        System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
         stmt.executeUpdate(query);
@@ -128,7 +127,6 @@ public class DAOSQL {
                 + "planeta VARCHAR(50),"
                 + "FOREIGN KEY (planeta) REFERENCES planet(name)"
                 + ");";
-        System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
         stmt.executeUpdate(query);
@@ -145,7 +143,6 @@ public class DAOSQL {
                 + "planeta VARCHAR(50),"
                 + "FOREIGN KEY (planeta) REFERENCES planet(name)"
                 + ");";
-        System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
         stmt.executeUpdate(query);
@@ -161,7 +158,6 @@ public class DAOSQL {
                 + "planeta VARCHAR(50),"
                 + "FOREIGN KEY (planeta) REFERENCES planet(name)"
                 + ");";
-        System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
         stmt.executeUpdate(query);
@@ -177,7 +173,6 @@ public class DAOSQL {
                 + "planeta VARCHAR(50),"
                 + "FOREIGN KEY (planeta) REFERENCES planet(name)"
                 + ");";
-        System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
         stmt.executeUpdate(query);
@@ -193,7 +188,6 @@ public class DAOSQL {
                 + "planeta VARCHAR(50),"
                 + "FOREIGN KEY (planeta) REFERENCES planet(name)"
                 + ");";
-        System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
         stmt.executeUpdate(query);
@@ -209,7 +203,6 @@ public class DAOSQL {
                 + "planeta VARCHAR(50),"
                 + "FOREIGN KEY (planeta) REFERENCES planet(name)"
                 + ");";
-        System.out.println(query);
         Statement stmt = null;
         stmt = conn.createStatement();
         stmt.executeUpdate(query);
@@ -541,6 +534,34 @@ public class DAOSQL {
             }
         }
         //Devolvemos la cantidad de registros afectados, en nuestro caso siempre uno
+        return registers;
+    }
+
+    public int modificarhum(String genero, int edad, String name) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_UPDATE_HUM);
+            instruction.setString(1, genero);
+            instruction.setInt(2, edad);
+            instruction.setString(3, name);
+            //cada vez que modificamos una base de datos llamamos a executeUpdate()
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            //ex.printStackTrace(System.out);
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.update)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.update)");
+            }
+        }
+        //Devolvemos la cantidad de registros afectados
         return registers;
     }
 
