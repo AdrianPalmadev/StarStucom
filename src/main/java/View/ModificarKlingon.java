@@ -22,7 +22,7 @@ public class ModificarKlingon extends javax.swing.JDialog {
     public ModificarKlingon(javax.swing.JDialog parent, boolean modal, Klingon s) {
         super(parent, modal);
         initComponents();
-
+        
         setLocationRelativeTo(null);
         setResizable(false);
     }
@@ -159,6 +159,7 @@ public class ModificarKlingon extends javax.swing.JDialog {
         //Variables de las propiedades de Humano
         String name = nombreciudadano.getText();
         String planeta = (String) nombreplaneta.getSelectedItem();
+        DAOSQL d = new DAOSQL();
 
         //Variable que se modifica
         int levelfuerza = (int) fuerza.getValue();
@@ -174,9 +175,13 @@ public class ModificarKlingon extends javax.swing.JDialog {
         //Creamos una variable Klingon sv que equivale a Ser s
         Klingon sv = (Klingon) s;
 
-        //ACtualizamos la informacion
-        sv.setForce(levelfuerza);
-
+        try {
+            //ACtualizamos la informacion
+            d.modificarkli(levelfuerza, name);
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarKlingon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);
         dispose();

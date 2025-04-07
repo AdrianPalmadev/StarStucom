@@ -59,8 +59,14 @@ public class DAOSQL {
     private final String SQL_INSERT_VUL = "INSERT INTO " + JDBC_DDBB + "." + JDBC_TABLEvul + " (name, meditation, civilization, planeta) VALUES (?, ?, ?, ?);";
 
     //UPDATES
-    private final String SQL_UPDATE_HUM = "UPDATE " + JDBC_DDBB_TABLEhum + " SET gender = ?, age = ? WHERE (name = ?);";
+    private final String SQL_UPDATE_AND = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEand + " SET rango = ?, ice = ? WHERE (name = ?);";
+    private final String SQL_UPDATE_HUM = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEhum + " SET gender = ?, age = ? WHERE (name = ?);";
+    private final String SQL_UPDATE_FER = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEfer + " SET gold = ? WHERE (name = ?);";
+    private final String SQL_UPDATE_KLI = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEkli + " SET strength = ? WHERE (name = ?);";
+    private final String SQL_UPDATE_NIB = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEnib + " SET floraorfish = ? WHERE (name = ?);";
+    private final String SQL_UPDATE_VUL = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEvul + " SET meditation = ? WHERE (name = ?);";
 
+    //DELETES
 //    private final String SQL_DELETE = "DELETE FROM " + JDBC_DDBB_TABLE + " WHERE (name = ";
 //    private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
 //    private final String SQL_RESET_AGES = "UPDATE " + JDBC_DDBB_TABLE + " SET age = 0 WHERE (name = ?);";
@@ -264,6 +270,11 @@ public class DAOSQL {
         ResultSet rs = null;
         Ser s = null;
         Humano h = null;
+        Andoriano and = null;
+        Ferengi fer = null;
+        Klingon kli = null;
+        Vulcaniano vul = null;
+        Nibiriano nib = null;
         Planeta p = null;
 
         try {
@@ -289,6 +300,122 @@ public class DAOSQL {
             }
         } catch (SQLException ex) {
             throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        }
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_AND);
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String rango = rs.getString("rango");
+                boolean ice = rs.getBoolean("ice");
+                String planet = rs.getString("planeta");
+
+                for (Planeta planeta : obtainPlanets()) {
+                    if (planeta.getName().equals(planet)) {
+                        p = planeta;
+                        break;
+                    }
+                }
+
+                and = new Andoriano(rango, ice, name, p);
+                ser.add(and);
+            }
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.selectAND)");
+        }
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_FER);
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int gold = rs.getInt("gold");
+                String planet = rs.getString("planeta");
+
+                for (Planeta planeta : obtainPlanets()) {
+                    if (planeta.getName().equals(planet)) {
+                        p = planeta;
+                        break;
+                    }
+                }
+
+                fer = new Ferengi(gold, name, p);
+                ser.add(fer);
+            }
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.selectFER)");
+        }
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_KLI);
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int strength = rs.getInt("strength");
+                String planet = rs.getString("planeta");
+
+                for (Planeta planeta : obtainPlanets()) {
+                    if (planeta.getName().equals(planet)) {
+                        p = planeta;
+                        break;
+                    }
+                }
+
+                kli = new Klingon(strength, name, p);
+                ser.add(kli);
+            }
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.selectKLI)");
+        }
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_NIB);
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String floraOrFish = rs.getString("floraorfish");
+                String planet = rs.getString("planeta");
+
+                for (Planeta planeta : obtainPlanets()) {
+                    if (planeta.getName().equals(planet)) {
+                        p = planeta;
+                        break;
+                    }
+                }
+
+                nib = new Nibiriano(floraOrFish, name, p);
+                ser.add(nib);
+            }
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.selectNIB)");
+        }
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_VUL);
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int meditation = rs.getInt("meditation");
+                String planet = rs.getString("planeta");
+
+                for (Planeta planeta : obtainPlanets()) {
+                    if (planeta.getName().equals(planet)) {
+                        p = planeta;
+                        break;
+                    }
+                }
+
+                vul = new Vulcaniano(meditation, name, p);
+                ser.add(vul);
+            }
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.selectVUL)");
         }
 
         try {
@@ -562,6 +689,122 @@ public class DAOSQL {
             }
         }
         //Devolvemos la cantidad de registros afectados
+        return registers;
+    }
+
+    public int modificarand(String rango, boolean ice, String name) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_UPDATE_AND);
+            instruction.setString(1, rango);
+            instruction.setBoolean(2, ice);
+            instruction.setString(3, name);
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.updateAND)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.updateAND)");
+            }
+        }
+        return registers;
+    }
+
+    public int modificarfer(int gold, String name) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_UPDATE_FER);
+            instruction.setInt(1, gold);
+            instruction.setString(2, name);
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.updateFER)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.updateFER)");
+            }
+        }
+        return registers;
+    }
+
+    public int modificarkli(int strength, String name) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_UPDATE_KLI);
+            instruction.setInt(1, strength);
+            instruction.setString(2, name);
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.updateKLI)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.updateKLI)");
+            }
+        }
+        return registers;
+    }
+
+    public int modificarnib(String floraOrFish, String name) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_UPDATE_NIB);
+            instruction.setString(1, floraOrFish);
+            instruction.setString(2, name);
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.updateNIB)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.updateNIB)");
+            }
+        }
+        return registers;
+    }
+
+    public int modificarvul(int meditation, String name) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        int registers = 0;
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_UPDATE_VUL);
+            instruction.setInt(1, meditation);
+            instruction.setString(2, name);
+            registers = instruction.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_Controller.DAOSQL.updateVUL)");
+        } finally {
+            try {
+                instruction.close();
+                disconnect(conn);
+            } catch (SQLException ex) {
+                throw new DAO_Excep("Can not close database write process (DAO_Controller.DAOSQL.updateVUL)");
+            }
+        }
         return registers;
     }
 

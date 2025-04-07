@@ -161,7 +161,8 @@ public class ModificarFerengi extends javax.swing.JDialog {
         //Variables de las propiedades de Ferengi
         String name = nombreciudadano.getText();
         String planeta = (String) nombreplaneta.getSelectedItem();
-
+        DAOSQL d = new DAOSQL();
+        
 //        Variable que se modifican
         int caoro = (int) oro.getValue();
 
@@ -176,8 +177,12 @@ public class ModificarFerengi extends javax.swing.JDialog {
         //Creamos una variable Ferengi sf que equivale a Ser s
         Ferengi sf = (Ferengi) s;
 
-        //Actualizamos la informacion
-        sf.setGold(caoro);
+        try {
+            //Actualizamos la informacion
+            d.modificarfer(caoro, name);
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarFerengi.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);
         dispose();

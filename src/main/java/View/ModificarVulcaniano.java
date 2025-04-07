@@ -164,6 +164,7 @@ public class ModificarVulcaniano extends javax.swing.JDialog {
 
         //Variables de las propiedades de Vulcaniano
         String name = nombreciudadano.getText();
+        DAOSQL d = new DAOSQL();
 
         //Variables que se cambian
         int meditacion = (int) nivelmeditacion.getValue();
@@ -179,9 +180,12 @@ public class ModificarVulcaniano extends javax.swing.JDialog {
         //Creamos una variable Humano sh que equivale a Humano s
         Vulcaniano sh = (Vulcaniano) s;
 
-//        Actualizamos la informacion
-        sh.setMeditation(meditacion);
-
+        try {
+            //        Actualizamos la informacion
+            d.modificarvul(meditacion, name);
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarVulcaniano.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);
         dispose();

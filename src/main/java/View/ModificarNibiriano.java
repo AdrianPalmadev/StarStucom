@@ -164,6 +164,7 @@ public class ModificarNibiriano extends javax.swing.JDialog {
         //Variables de las propiedades de Humano
         String name = nombreciudadano.getText();
         String planeta = (String) nombreplaneta.getSelectedItem();
+        DAOSQL d = new DAOSQL();
 
         //Variable que se modifica
         String comida = (String) grupoalimenticio.getSelectedItem();
@@ -179,8 +180,12 @@ public class ModificarNibiriano extends javax.swing.JDialog {
         //Creamos una variable Nibiriano sn que equivale a Ser s
         Nibiriano sn = (Nibiriano) s;
 
-        //ACtualizamos la informacion
-        sn.setFloraOrFish(comida);
+        try {
+            //ACtualizamos la informacion
+            d.modificarnib(comida, name);
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarNibiriano.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);

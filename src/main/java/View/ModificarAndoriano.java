@@ -191,6 +191,8 @@ public class ModificarAndoriano extends javax.swing.JDialog {
         //Variables de la propiedades Andoriano
         String name = nombreciudadano.getText();
 
+        DAOSQL d = new DAOSQL();
+
         //Variables que se cambian
         String range = (String) rango.getSelectedItem();
         boolean liveice = aenar.isSelected();
@@ -204,9 +206,12 @@ public class ModificarAndoriano extends javax.swing.JDialog {
         }
         //Creamos una variable Andoriano sh que equivale a Humano s
         Andoriano sa = (Andoriano) s;
-        //Actualizamos la informacion
-        sa.setIceAtThePoles(liveice);
-        sa.setRange(range);
+        try {
+            //Actualizamos la informacion
+            d.modificarand(range, liveice, name);
+        } catch (DAO_Excep ex) {
+            Logger.getLogger(ModificarAndoriano.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);
         dispose();
