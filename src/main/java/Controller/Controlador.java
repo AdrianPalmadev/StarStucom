@@ -34,7 +34,7 @@ public class Controlador {
             registeredPlanets = daoPla.insertpla(p);
 
         } catch (DAO_Excep ex) {
-            throw new PlanetaExcepcion(p.getName() + " has been registered.");
+            throw new PlanetaExcepcion(p.getName() + " ya esta registrado, inserta otro nombre.");
         }
 
     }
