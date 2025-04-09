@@ -42,6 +42,7 @@ public class Controlador {
     public static Ser getSer(Ser s) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
 
+        //dIRECTAMENTE DE LA bbdd
         for (Ser sp : d.obtainSeres()) {
             if (sp.equals(s)) {
                 return sp;
@@ -52,6 +53,7 @@ public class Controlador {
 
     public static boolean getCiudadano() throws DAO_Excep {
         DAOSQL d = new DAOSQL();
+        //dIRECTAMENTE DE LA bbdd
         for (Ser ser : d.obtainSeres()) {
             if (ser instanceof Ser) {
                 return true;
@@ -62,7 +64,7 @@ public class Controlador {
 
     public static Object noRepeatNombreSer(Ser s) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
-
+        //dIRECTAMENTE DE LA bbdd
         for (Ser w : d.obtainSeres()) {
             if (s.getName().equals(w.getName())) {
                 return w;
@@ -74,32 +76,21 @@ public class Controlador {
     public static void getValidPlanet(Ser s, Planeta p) throws SerExcepcion, DAO_Excep {
         DAOSQL d = new DAOSQL();
 
-        ArrayList<Ser> as = new ArrayList<Ser>();
-
-        for (Ser s1 : d.obtainSeres()) {
-            if (s1.getPlanet().equals(p)) {
-                as.add(s1);
-            }
-        }
-        if (as.size() < p.getPopulationMax()) {
+        if (d.getpoblacion(p)) { //return boolean de ser y planeta
             if (noRepeatNombreSer(s) == null) {
 //                Si s es Specie Andoriano
                 if (s instanceof Vulcaniano) {
-                    for (Ser existente : as) {
+                    if (d.searchAndoriano(p)) {
                         //coincide en el mismo lugar que un vulcaniano
-                        if (existente instanceof Andoriano) {
-                            throw new SerExcepcion(" En el " + p.getName() + " existe un Andoriano");
-                        }
+                        throw new SerExcepcion(" En el " + p.getName() + " existe un Andoriano");
                     }
 //        Si s es tipo Andoriano
                 } else if (s instanceof Andoriano) {
-                    for (Ser existente : as) {
+                    if (d.searchVulcaniano(p)) {
                         //coincide en el mismo lugar que un vulcaniano
-                        if (existente instanceof Vulcaniano) {
-                            throw new SerExcepcion(" En el " + p.getName() + " existe un Vulcaniano");
-                        }
+                        throw new SerExcepcion(" En el " + p.getName() + " existe un Vulcaniano");
                     }
-//            Si es tipo klingon
+                    //            Si es tipo klingon
                 } else if (s instanceof Klingon) {
 //            Si el clima es de tipo Calido
                     if (p.getClime().equalsIgnoreCase("Calido")) {
@@ -127,12 +118,13 @@ public class Controlador {
                 throw new SerExcepcion("El nombre:  " + s.getName() + " ya esta en uso.");
             }
         } else {
-            throw new SerExcepcion("[!] El planeta " + p.getName() + "a llegado a su capacidad máxima .");
+            throw new SerExcepcion("[!] El planeta " + p.getName() + " ha llegado a su capacidad máxima .");
         }
     }
 
     public static Planeta getPlanetaSer(Ser s) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
+        //dIRECTAMENTE DE LA bbdd
         for (Planeta p : d.obtainPlanets()) {
             for (Ser sp : d.obtainSeres()) {
                 if (sp.equals(s)) {
@@ -145,6 +137,7 @@ public class Controlador {
 
     public static Planeta getPlanet(Planeta p) throws DAO_Excep {
         DAOSQL d = new DAOSQL();
+        //dIRECTAMENTE DE LA bbdd
         if (d.obtainPlanets().contains(p)) {
             for (Planeta ps : d.obtainPlanets()) {
                 if (ps.equals(p)) {
@@ -200,6 +193,7 @@ public class Controlador {
         DAOSQL d = new DAOSQL();
         ArrayList<Ser> as = new ArrayList<Ser>();
 
+        //bORRADO cascada
         for (Ser s1 : d.obtainSeres()) {
             if (s1.getPlanet().equals(p)) {
                 deleteser(s1);

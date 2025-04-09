@@ -4,12 +4,9 @@ import Excepcion.DAO_Excep;
 import Model.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -67,7 +64,6 @@ public class DAOSQL {
     private final String SQL_UPDATE_VUL = "UPDATE " + JDBC_DDBB + "." + JDBC_TABLEvul + " SET meditation = ? WHERE (name = ?);";
 
     //DELETES
-// DELETES
     private final String SQL_DELETE_PLA = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEpla + " WHERE (name = ?);";
     private final String SQL_DELETE_AND = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEand + " WHERE (name = ?);";
     private final String SQL_DELETE_HUM = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEhum + " WHERE (name = ?);";
@@ -76,8 +72,21 @@ public class DAOSQL {
     private final String SQL_DELETE_NIB = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEnib + " WHERE (name = ?);";
     private final String SQL_DELETE_VUL = "DELETE FROM " + JDBC_DDBB + "." + JDBC_TABLEvul + " WHERE (name = ?);";
 
-//    private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
-//    private final String SQL_RESET_AGES = "UPDATE " + JDBC_DDBB_TABLE + " SET age = 0 WHERE (name = ?);";
+    //VALIDACIONES
+    private final String SQL_COUNT_ALL
+            = "SELECT COUNT(*) FROM ("
+            + "SELECT planet FROM " + JDBC_DDBB_TABLEand + " WHERE planet = ? UNION ALL "
+            + "SELECT planet FROM " + JDBC_DDBB_TABLEhum + " WHERE planet = ? UNION ALL "
+            + "SELECT planet FROM " + JDBC_DDBB_TABLEfer + " WHERE planet = ? UNION ALL "
+            + "SELECT planet FROM " + JDBC_DDBB_TABLEkli + " WHERE planet = ? UNION ALL "
+            + "SELECT planet FROM " + JDBC_DDBB_TABLEnib + " WHERE planet = ? UNION ALL "
+            + "SELECT planet FROM " + JDBC_DDBB_TABLEvul + " WHERE planet = ?"
+            + ") AS combined_results;";
+    private final String SQL_SEARCH_AND = "SELECT * FROM " + JDBC_DDBB_TABLEand + " WHERE planeta = ?;";
+    private final String SQL_SEARCH_VUL = "SELECT * FROM " + JDBC_DDBB_TABLEvul + " WHERE planeta = ?;";
+
+    //    private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
+    //    private final String SQL_RESET_AGES = "UPDATE " + JDBC_DDBB_TABLE + " SET age = 0 WHERE (name = ?);";
     public DAOSQL() {
     }
 
@@ -276,7 +285,6 @@ public class DAOSQL {
         Connection conn = null;
         PreparedStatement instruction = null;
         ResultSet rs = null;
-        Ser s = null;
         Humano h = null;
         Andoriano and = null;
         Ferengi fer = null;
@@ -974,6 +982,98 @@ public class DAOSQL {
             }
         }
         return registers;
+    }
+
+    public boolean getpoblacion(Planeta p) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        int total = 0;
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_COUNT_ALL);
+            instruction.setString(1, p.getName());
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                total += +1;
+            }
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return p.getPopulationMax() < total;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
+
+    public boolean searchAndoriano(Planeta p) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        boolean hayResultados = false;
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SEARCH_AND);
+            instruction.setString(1, p.getName());
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                hayResultados = true;
+            }
+
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return hayResultados;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
+
+    public boolean searchVulcaniano(Planeta p) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        boolean hayResultados = false;
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SEARCH_VUL);
+            instruction.setString(1, p.getName());
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                hayResultados = true;
+            }
+
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return hayResultados;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
     }
 
 }

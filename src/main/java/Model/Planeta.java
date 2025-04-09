@@ -1,9 +1,6 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Objects;
-import Model.*;
 
 //aunque no haga falta lo pondremos para tener en cuenta 
 //que Planeta es hijo de Object
