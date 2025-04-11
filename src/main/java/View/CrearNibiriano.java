@@ -163,11 +163,12 @@ public class CrearNibiriano extends javax.swing.JDialog {
         String name = nombreciudadano.getText();
         String comida = (String) grupoalimenticio.getSelectedItem();
         String planeta = (String) nombreplaneta.getSelectedItem();
-
+        DAOSQL d = new DAOSQL();
+        
         //Creacion de objeto Planeta y Ser
         Planeta p = null;
         try {
-            p = getPlanet(new Planeta(planeta));
+            p = d.getPlanet(new Planeta(planeta));
         } catch (DAO_Excep ex) {
             Logger.getLogger(CrearNibiriano.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -184,10 +184,11 @@ public class CrearAndoriano extends javax.swing.JDialog {
         String range = (String) rango.getSelectedItem();
         boolean liveice = aenar.isSelected();
         String planeta = (String) nombreplaneta.getSelectedItem();
+        DAOSQL d = new DAOSQL();
 
         Planeta p = null;
         try {
-            p = getPlanet(new Planeta(planeta));
+            p = d.getPlanet(new Planeta(planeta));
         } catch (DAO_Excep ex) {
             Logger.getLogger(CrearAndoriano.class.getName()).log(Level.SEVERE, null, ex);
         }

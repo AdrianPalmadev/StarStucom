@@ -162,14 +162,14 @@ public class ModificarFerengi extends javax.swing.JDialog {
         String name = nombreciudadano.getText();
         String planeta = (String) nombreplaneta.getSelectedItem();
         DAOSQL d = new DAOSQL();
-        
+
 //        Variable que se modifican
         int caoro = (int) oro.getValue();
 
 //        Conseguimos el HashCode mediante el nombre
         Ser s = null;
         try {
-            s = getSer(new Ser(name));
+            s = d.getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }

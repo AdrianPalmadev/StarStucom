@@ -27,7 +27,7 @@ public class ModificarHumano extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        Ser s = getSer(c);
+        Ser s = d.getSer(c);
         Humano sh = (Humano) s;
 
         nombreciudadano.setText(sh.getName());
@@ -218,7 +218,7 @@ public class ModificarHumano extends javax.swing.JDialog {
         //Conseguimos el HashCode de s mediante el nombre
         Ser s = null;
         try {
-            s = getSer(new Ser(name));
+            s = d.getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -247,7 +247,7 @@ public class ModificarHumano extends javax.swing.JDialog {
         DAOSQL d = new DAOSQL();
         Ser s = null;
         try {
-            s = getSer(new Ser(nombreciudadano.getText()));
+            s = d.getSer(new Ser(nombreciudadano.getText()));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
         }

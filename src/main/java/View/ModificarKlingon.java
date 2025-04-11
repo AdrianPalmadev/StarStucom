@@ -22,7 +22,7 @@ public class ModificarKlingon extends javax.swing.JDialog {
     public ModificarKlingon(javax.swing.JDialog parent, boolean modal, Klingon s) {
         super(parent, modal);
         initComponents();
-        
+
         setLocationRelativeTo(null);
         setResizable(false);
     }
@@ -167,7 +167,7 @@ public class ModificarKlingon extends javax.swing.JDialog {
         //Conseguimos el HashCode mediante el nombre
         Ser s = null;
         try {
-            s = getSer(new Ser(name));
+            s = d.getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarKlingon.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,7 +181,7 @@ public class ModificarKlingon extends javax.swing.JDialog {
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarKlingon.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el ciudadano",
                 "Ciudadano Modificado", JOptionPane.INFORMATION_MESSAGE);
         dispose();

@@ -175,8 +175,9 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        DAOSQL d = new DAOSQL();
         try {
-            if (getCiudadano()) {
+            if (d.getCiudadano()) {
                 BuscarModificar modificar = new BuscarModificar(this, true);
                 modificar.setLocationRelativeTo(null);
                 modificar.setVisible(true);
@@ -228,8 +229,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_bajaActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        DAOSQL d = new DAOSQL();
+
         try {
-            if (getCiudadano()) {
+            if (d.getCiudadano()) {
                 Buscar buscar = new Buscar(this, true);
                 buscar.setLocationRelativeTo(null);
                 buscar.setVisible(true);

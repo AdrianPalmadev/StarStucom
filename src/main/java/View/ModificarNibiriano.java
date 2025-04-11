@@ -172,7 +172,7 @@ public class ModificarNibiriano extends javax.swing.JDialog {
         //Conseguimos el hashcode mediante el nombre
         Ser s = null;
         try {
-            s = getSer(new Ser(name));
+            s = d.getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarNibiriano.class.getName()).log(Level.SEVERE, null, ex);
         }

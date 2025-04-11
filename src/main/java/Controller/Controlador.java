@@ -39,45 +39,11 @@ public class Controlador {
 
     }
 
-    public static Ser getSer(Ser s) throws DAO_Excep {
-        DAOSQL d = new DAOSQL();
-
-        //dIRECTAMENTE DE LA bbdd
-        for (Ser sp : d.obtainSeres()) {
-            if (sp.equals(s)) {
-                return sp;
-            }
-        }
-        return null;
-    }
-
-    public static boolean getCiudadano() throws DAO_Excep {
-        DAOSQL d = new DAOSQL();
-        //dIRECTAMENTE DE LA bbdd
-        for (Ser ser : d.obtainSeres()) {
-            if (ser instanceof Ser) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Object noRepeatNombreSer(Ser s) throws DAO_Excep {
-        DAOSQL d = new DAOSQL();
-        //dIRECTAMENTE DE LA bbdd
-        for (Ser w : d.obtainSeres()) {
-            if (s.getName().equals(w.getName())) {
-                return w;
-            }
-        }
-        return null;
-    }
-
     public static void getValidPlanet(Ser s, Planeta p) throws SerExcepcion, DAO_Excep {
         DAOSQL d = new DAOSQL();
 
         if (d.getpoblacion(p)) { //return boolean de ser y planeta
-            if (noRepeatNombreSer(s) == null) {
+            if (d.noRepeatNombreSer(s) == null) {
 //                Si s es Specie Andoriano
                 if (s instanceof Vulcaniano) {
                     if (d.searchAndoriano(p)) {
@@ -122,32 +88,6 @@ public class Controlador {
         }
     }
 
-    public static Planeta getPlanetaSer(Ser s) throws DAO_Excep {
-        DAOSQL d = new DAOSQL();
-        //dIRECTAMENTE DE LA bbdd
-        for (Planeta p : d.obtainPlanets()) {
-            for (Ser sp : d.obtainSeres()) {
-                if (sp.equals(s)) {
-                    return p;
-                }
-            }
-        }
-        return null;
-    }
-
-    public static Planeta getPlanet(Planeta p) throws DAO_Excep {
-        DAOSQL d = new DAOSQL();
-        //dIRECTAMENTE DE LA bbdd
-        if (d.obtainPlanets().contains(p)) {
-            for (Planeta ps : d.obtainPlanets()) {
-                if (ps.equals(p)) {
-                    return ps;
-                }
-            }
-        }
-        return null;
-    }
-
     public static void createser(Ser o, Planeta p) throws SerExcepcion, DAO_Excep {
         DAOSQL d = new DAOSQL();
         getValidPlanet(o, p);
@@ -187,19 +127,6 @@ public class Controlador {
             default -> {
             }
         }
-    }
-
-    public static void deleteplaneta(Planeta p) throws PlanetaExcepcion, DAO_Excep, SerExcepcion {
-        DAOSQL d = new DAOSQL();
-        ArrayList<Ser> as = new ArrayList<Ser>();
-
-        //bORRADO cascada
-        for (Ser s1 : d.obtainSeres()) {
-            if (s1.getPlanet().equals(p)) {
-                deleteser(s1);
-            }
-        }
-        d.deletepla(p);
     }
 
 }

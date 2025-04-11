@@ -38,9 +38,9 @@ public class Buscar extends javax.swing.JDialog {
                 }
             }
         }
-        if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
-            info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                    + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+        if (d.getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
+            info.setText(d.getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                    + "\n" + d.getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
         }
         ejecutaUsuario = true;
 
@@ -233,9 +233,9 @@ public class Buscar extends javax.swing.JDialog {
             }
         }
         try {
-            if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
-                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+            if (d.getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
+                info.setText(d.getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + d.getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
             }
         } catch (DAO_Excep ex) {
             Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
@@ -248,9 +248,10 @@ public class Buscar extends javax.swing.JDialog {
 
         } else {
             info.setText("");
+            DAOSQL d = new DAOSQL();
             try {
-                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+                info.setText(d.getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + d.getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
             } catch (DAO_Excep ex) {
                 Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -161,11 +161,12 @@ public class CrearKlingon extends javax.swing.JDialog {
         String name = nombreciudadano.getText();
         int levelfuerza = (int) fuerza.getValue();
         String planeta = (String) nombreplaneta.getSelectedItem();
+        DAOSQL d = new DAOSQL();
 
         //Creacion de objeto Planeta y Ser
         Planeta p = null;
         try {
-            p = getPlanet(new Planeta(planeta));
+            p = d.getPlanet(new Planeta(planeta));
         } catch (DAO_Excep ex) {
             Logger.getLogger(CrearKlingon.class.getName()).log(Level.SEVERE, null, ex);
         }

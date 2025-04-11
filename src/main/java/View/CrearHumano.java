@@ -186,9 +186,11 @@ public class CrearHumano extends javax.swing.JDialog {
         int edad = (int) edadhumano.getValue();
         String genero = (String) generohumano.getSelectedItem();
         String planeta = (String) nombreplaneta.getSelectedItem();
+        DAOSQL d = new DAOSQL();
+
         //Creacion de objeto y Ser conseguir HashSet Planeta
         try {
-            p = getPlanet(new Planeta(planeta));
+            p = d.getPlanet(new Planeta(planeta));
         } catch (DAO_Excep ex) {
             Logger.getLogger(CrearHumano.class.getName()).log(Level.SEVERE, null, ex);
         }

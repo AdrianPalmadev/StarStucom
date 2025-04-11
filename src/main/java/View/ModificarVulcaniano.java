@@ -172,7 +172,7 @@ public class ModificarVulcaniano extends javax.swing.JDialog {
         //Conseguimos el HashCode de s mediante el nombre
         Ser s = null;
         try {
-            s = getSer(new Ser(name));
+            s = d.getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarVulcaniano.class.getName()).log(Level.SEVERE, null, ex);
         }

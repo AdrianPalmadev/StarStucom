@@ -84,6 +84,23 @@ public class DAOSQL {
             + ") AS combined_results;";
     private final String SQL_SEARCH_AND = "SELECT * FROM " + JDBC_DDBB_TABLEand + " WHERE planeta = ?;";
     private final String SQL_SEARCH_VUL = "SELECT * FROM " + JDBC_DDBB_TABLEvul + " WHERE planeta = ?;";
+    private final String SQL_SEARCH_pla = "SELECT * FROM " + JDBC_DDBB_TABLEpla + " WHERE name = ?;";
+    private final String SQL_SEARCH_SER = "SELECT * FROM ("
+            + "SELECT * FROM " + JDBC_DDBB_TABLEand + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEhum + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEfer + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEkli + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEnib + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEvul
+            + ") AS seres WHERE name = ?;";
+    private final String SQL_SELECT_ALL_SERES = "SELECT * FROM ("
+            + "SELECT * FROM " + JDBC_DDBB_TABLEand + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEhum + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEfer + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEkli + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEnib + " UNION ALL "
+            + "SELECT * FROM " + JDBC_DDBB_TABLEvul
+            + ") AS todos_seres;";
 
     //    private final String SQL_DELETE_ALL = "DELETE FROM " + JDBC_DDBB_TABLE + ";";
     //    private final String SQL_RESET_AGES = "UPDATE " + JDBC_DDBB_TABLE + " SET age = 0 WHERE (name = ?);";
@@ -148,7 +165,7 @@ public class DAOSQL {
                 + "ice boolean,"
                 + "civilization int,"
                 + "planeta VARCHAR(50),"
-                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name) ON DELETE CASCADE"
                 + ");";
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -164,7 +181,7 @@ public class DAOSQL {
                 + "age int,"
                 + "civilization int,"
                 + "planeta VARCHAR(50),"
-                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name) ON DELETE CASCADE"
                 + ");";
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -179,7 +196,7 @@ public class DAOSQL {
                 + "gold int,"
                 + "civilization int,"
                 + "planeta VARCHAR(50),"
-                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name) ON DELETE CASCADE"
                 + ");";
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -194,7 +211,7 @@ public class DAOSQL {
                 + "strength int,"
                 + "civilization int,"
                 + "planeta VARCHAR(50),"
-                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name) ON DELETE CASCADE"
                 + ");";
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -209,7 +226,7 @@ public class DAOSQL {
                 + "floraorfish varchar(20),"
                 + "civilization int,"
                 + "planeta VARCHAR(50),"
-                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name) ON DELETE CASCADE"
                 + ");";
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -224,7 +241,7 @@ public class DAOSQL {
                 + "meditation int,"
                 + "civilization int,"
                 + "planeta VARCHAR(50),"
-                + "FOREIGN KEY (planeta) REFERENCES planet(name)"
+                + "FOREIGN KEY (planeta) REFERENCES planet(name) ON DELETE CASCADE"
                 + ");";
         Statement stmt = null;
         stmt = conn.createStatement();
@@ -1076,4 +1093,189 @@ public class DAOSQL {
         }
     }
 
+    public Planeta getPlanet(Planeta p) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        boolean hayResultados = false;
+        Planeta ps = null;
+        try {
+            conn = connect();
+
+            instruction = conn.prepareStatement(SQL_SEARCH_pla);
+            instruction.setString(1, p.getName());
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String galaxy = rs.getString("galaxy");
+                int maxPopulation = rs.getInt("maxPopulation");
+                String clime = rs.getString("clime");
+                boolean flora = rs.getBoolean("flora");
+                boolean aquatic = rs.getBoolean("aquatic");
+
+                ps = new Planeta(name, galaxy, maxPopulation, clime, flora, aquatic);
+
+            }
+
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return ps;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
+
+    public Ser getSer(Ser s) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        boolean hayResultados = false;
+        Ser se = null;
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SEARCH_SER);
+            instruction.setString(1, s.getName());
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+
+                se = new Ser(name);
+
+            }
+
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return se;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
+
+    public boolean getCiudadano() throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        boolean hayResultados = false;
+        System.out.println("Antes de la conexion");
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SELECT_ALL_SERES);
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                System.out.println("Hay ciudadanos");
+                return true;
+
+            }
+            System.out.println("No Hay ciudadanos");
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                System.out.println("Despues de la conexion");
+                return false;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
+
+    public Object noRepeatNombreSer(Ser s) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        boolean hayResultados = false;
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SEARCH_SER);
+            instruction.setString(1, s.getName());
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+
+                Ser se = new Ser(name);
+                if (s.getName().equals(se.getName())) {
+                    instruction.close();
+                    disconnect(conn);
+                    return se;
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return null;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
+
+    public Planeta getPlanetaSer(Ser s) throws DAO_Excep {
+        Connection conn = null;
+        PreparedStatement instruction = null;
+        ResultSet rs = null;
+        boolean hayResultados = false;
+
+        try {
+            conn = connect();
+            instruction = conn.prepareStatement(SQL_SEARCH_SER);
+            instruction.setString(1, s.getName());
+            rs = instruction.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String planet = rs.getString("planet");
+
+                Planeta p = new Planeta(planet);
+                Ser se = new Ser(name);
+                if (s.equals(se)) {
+                    instruction.close();
+                    disconnect(conn);
+                    return getPlanet(p);
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
+        } finally {
+
+            try {
+                instruction.close();
+                disconnect(conn);
+                return null;
+            } catch (SQLException ex) {
+                //ex.printStackTrace(System.out);
+                throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
+            }
+
+        }
+    }
 }

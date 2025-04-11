@@ -159,11 +159,12 @@ public class CrearVulcaniano extends javax.swing.JDialog {
         String name = nombreciudadano.getText();
         int meditacion = (int) nivelmeditacion.getValue();
         String planeta = (String) nombreplaneta.getSelectedItem();
+        DAOSQL d = new DAOSQL();
 
         //Creacion de objeto Planeta y Ser
         Planeta p = null;
         try {
-            p = getPlanet(new Planeta(planeta));
+            p = d.getPlanet(new Planeta(planeta));
         } catch (DAO_Excep ex) {
             Logger.getLogger(CrearVulcaniano.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -121,8 +121,10 @@ public class BuscarModificar extends javax.swing.JDialog {
 
         String nombre = (String) nombresserlista.getSelectedItem();
         Ser s = null;
+        DAOSQL d = new DAOSQL();
+
         try {
-            s = getSer(new Ser(nombre));
+            s = d.getSer(new Ser(nombre));
         } catch (DAO_Excep ex) {
             Logger.getLogger(BuscarModificar.class.getName()).log(Level.SEVERE, null, ex);
         }
