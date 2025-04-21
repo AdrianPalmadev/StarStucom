@@ -42,7 +42,9 @@ public class Controlador {
     public static void getValidPlanet(Ser s, Planeta p) throws SerExcepcion, DAO_Excep {
         DAOSQL d = new DAOSQL();
 
+        System.out.println("Entrando al if");
         if (d.getpoblacion(p)) { //return boolean de ser y planeta
+            System.out.println("Hola");
             if (d.noRepeatNombreSer(s) == null) {
 //                Si s es Specie Andoriano
                 if (s instanceof Vulcaniano) {
@@ -86,6 +88,11 @@ public class Controlador {
         } else {
             throw new SerExcepcion("[!] El planeta " + p.getName() + " ha llegado a su capacidad máxima .");
         }
+    }
+
+    public static Planeta getPlanet(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.getPlanet(p);
     }
 
     public static void createser(Ser o, Planeta p) throws SerExcepcion, DAO_Excep {

@@ -74,14 +74,13 @@ public class DAOSQL {
 
     //VALIDACIONES
     private final String SQL_COUNT_ALL
-            = "SELECT COUNT(*) FROM ("
-            + "SELECT planet FROM " + JDBC_DDBB_TABLEand + " WHERE planet = ? UNION ALL "
-            + "SELECT planet FROM " + JDBC_DDBB_TABLEhum + " WHERE planet = ? UNION ALL "
-            + "SELECT planet FROM " + JDBC_DDBB_TABLEfer + " WHERE planet = ? UNION ALL "
-            + "SELECT planet FROM " + JDBC_DDBB_TABLEkli + " WHERE planet = ? UNION ALL "
-            + "SELECT planet FROM " + JDBC_DDBB_TABLEnib + " WHERE planet = ? UNION ALL "
-            + "SELECT planet FROM " + JDBC_DDBB_TABLEvul + " WHERE planet = ?"
-            + ") AS combined_results;";
+            = "SELECT planeta FROM " + JDBC_DDBB_TABLEand + " WHERE planeta = ? UNION ALL "
+            + "SELECT planeta FROM " + JDBC_DDBB_TABLEhum + " WHERE planeta = ? UNION ALL "
+            + "SELECT planeta FROM " + JDBC_DDBB_TABLEfer + " WHERE planeta = ? UNION ALL "
+            + "SELECT planeta FROM " + JDBC_DDBB_TABLEkli + " WHERE planeta = ? UNION ALL "
+            + "SELECT planeta FROM " + JDBC_DDBB_TABLEnib + " WHERE planeta = ? UNION ALL "
+            + "SELECT planeta FROM " + JDBC_DDBB_TABLEvul + " WHERE planeta = ?"
+            + ";";
     private final String SQL_SEARCH_AND = "SELECT * FROM " + JDBC_DDBB_TABLEand + " WHERE planeta = ?;";
     private final String SQL_SEARCH_VUL = "SELECT * FROM " + JDBC_DDBB_TABLEvul + " WHERE planeta = ?;";
     private final String SQL_SEARCH_pla = "SELECT * FROM " + JDBC_DDBB_TABLEpla + " WHERE name = ?;";
@@ -1006,15 +1005,26 @@ public class DAOSQL {
         PreparedStatement instruction = null;
         ResultSet rs = null;
         int total = 0;
+        int numero = p.getPopulationMax();
+        System.out.println(p.getName());
 
         try {
             conn = connect();
             instruction = conn.prepareStatement(SQL_COUNT_ALL);
             instruction.setString(1, p.getName());
+            instruction.setString(2, p.getName());
+            instruction.setString(3, p.getName());
+            instruction.setString(4, p.getName());
+            instruction.setString(5, p.getName());
+            instruction.setString(6, p.getName());
             rs = instruction.executeQuery();
+            System.out.println(p.getName());
+            System.out.println(total + "1");
             while (rs.next()) {
-                total += +1;
+                total = total + 1;
+                System.out.println(total);
             }
+
         } catch (SQLException ex) {
             throw new DAO_Excep("Can not write to database (DAO_COntroller.DAOSQL.insert)");
         } finally {
@@ -1022,7 +1032,9 @@ public class DAOSQL {
             try {
                 instruction.close();
                 disconnect(conn);
-                return p.getPopulationMax() < total;
+                System.out.println("numero " + numero);
+                System.out.println("total " + total);
+                return numero > total;
             } catch (SQLException ex) {
                 //ex.printStackTrace(System.out);
                 throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");

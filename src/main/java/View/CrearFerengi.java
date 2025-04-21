@@ -161,7 +161,7 @@ public class CrearFerengi extends javax.swing.JDialog {
         int caoro = (int) oro.getValue();
         String planeta = (String) nombreplaneta.getSelectedItem();
         DAOSQL d = new DAOSQL();
-        
+
         //Creacion de objeto Planeta y Ser
         try {
             p = d.getPlanet(new Planeta(planeta));
