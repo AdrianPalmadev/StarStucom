@@ -95,11 +95,6 @@ public class Baja extends javax.swing.JDialog {
                 nombreslistaItemStateChanged(evt);
             }
         });
-        nombreslista.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreslistaActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -131,11 +126,6 @@ public class Baja extends javax.swing.JDialog {
         filtro.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 filtroItemStateChanged(evt);
-            }
-        });
-        filtro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filtroActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -282,13 +272,13 @@ public class Baja extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_nombreslistaItemStateChanged
 
-    private void filtroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtroActionPerformed
+    private void filtroActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }//GEN-LAST:event_filtroActionPerformed
+    }
 
-    private void nombreslistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreslistaActionPerformed
+    private void nombreslistaActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }//GEN-LAST:event_nombreslistaActionPerformed
+    }
 
     /**
      * @param args the command line arguments
