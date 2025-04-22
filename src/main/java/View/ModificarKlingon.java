@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
-import DAO_Controller.DAOSQL;
 import Excepcion.DAO_Excep;
 import Model.*;
 import java.util.logging.Level;
@@ -159,7 +158,6 @@ public class ModificarKlingon extends javax.swing.JDialog {
         //Variables de las propiedades de Humano
         String name = nombreciudadano.getText();
         String planeta = (String) nombreplaneta.getSelectedItem();
-        DAOSQL d = new DAOSQL();
 
         //Variable que se modifica
         int levelfuerza = (int) fuerza.getValue();
@@ -167,7 +165,7 @@ public class ModificarKlingon extends javax.swing.JDialog {
         //Conseguimos el HashCode mediante el nombre
         Ser s = null;
         try {
-            s = d.getSer(new Ser(name));
+            s = getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarKlingon.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -177,7 +175,7 @@ public class ModificarKlingon extends javax.swing.JDialog {
 
         try {
             //ACtualizamos la informacion
-            d.modificarkli(levelfuerza, name);
+            modificarkli(levelfuerza, name);
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarKlingon.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -193,10 +191,9 @@ public class ModificarKlingon extends javax.swing.JDialog {
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
-        DAOSQL d = new DAOSQL();
         nombreplaneta.removeAllItems();
         try {
-            for (Planeta p : d.obtainPlanets()) {
+            for (Planeta p : obtainPlanets()) {
                 nombreplaneta.addItem(p.getName());
             }
         } catch (DAO_Excep ex) {

@@ -39,12 +39,160 @@ public class Controlador {
 
     }
 
+    public static Planeta getPlanet(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.getPlanet(p);
+    }
+
+    public static ArrayList<Planeta> obtainPlanets() throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.obtainPlanets();
+    }
+
+    public static ArrayList<Ser> obtainSeres() throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.obtainSeres();
+    }
+
+    public static int insertpla(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.insertpla(p);
+    }
+
+    public static int inserthum(Humano h, Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.inserthum(h, p);
+    }
+
+    public static int insertand(Andoriano a, Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.insertand(a, p);
+    }
+
+    public static int insertfer(Ferengi f, Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.insertfer(f, p);
+    }
+
+    public static int insertkli(Klingon k, Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.insertkli(k, p);
+    }
+
+    public static int insertnib(Nibiriano n, Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.insertnib(n, p);
+    }
+
+    public static int insertvul(Vulcaniano v, Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.insertvul(v, p);
+    }
+
+    public static int modificarhum(String genero, int edad, String name) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.modificarhum(genero, edad, name);
+    }
+
+    public static int modificarand(String rango, boolean ice, String name) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.modificarand(rango, ice, name);
+    }
+
+    public static int modificarfer(int gold, String name) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.modificarfer(gold, name);
+    }
+
+    public static int modificarkli(int strength, String name) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.modificarkli(strength, name);
+    }
+
+    public static int modificarnib(String floraOrFish, String name) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.modificarnib(floraOrFish, name);
+    }
+
+    public static int modificarvul(int meditation, String name) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.modificarvul(meditation, name);
+    }
+
+    public static int deletepla(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.deletepla(p);
+    }
+
+    public static int deletefer(Ferengi f) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.deletefer(f);
+    }
+
+    public static int deleteand(Andoriano a) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.deleteand(a);
+    }
+
+    public static int deletehum(Humano h) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.deletehum(h);
+    }
+
+    public static int deletekli(Klingon k) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.deletekli(k);
+    }
+
+    public static int deletenib(Nibiriano n) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.deletenib(n);
+    }
+
+    public static int deletevul(Vulcaniano v) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.deletevul(v);
+    }
+
+    public static boolean getpoblacion(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.getpoblacion(p);
+    }
+
+    public static boolean searchAndoriano(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.searchAndoriano(p);
+    }
+
+    public static boolean searchVulcaniano(Planeta p) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.searchVulcaniano(p);
+    }
+
+    public static Ser getSer(Ser s) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.getSer(s);
+    }
+
+    public static boolean getCiudadano() throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.getCiudadano();
+    }
+
+    public static Object noRepeatNombreSer(Ser s) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.noRepeatNombreSer(s);
+    }
+
+    public static Planeta getPlanetaSer(Ser s) throws DAO_Excep {
+        DAOSQL d = new DAOSQL();
+        return d.getPlanetaSer(s);
+    }
+
     public static void getValidPlanet(Ser s, Planeta p) throws SerExcepcion, DAO_Excep {
         DAOSQL d = new DAOSQL();
 
-        System.out.println("Entrando al if");
         if (d.getpoblacion(p)) { //return boolean de ser y planeta
-            System.out.println("Hola");
             if (d.noRepeatNombreSer(s) == null) {
 //                Si s es Specie Andoriano
                 if (s instanceof Vulcaniano) {
@@ -65,8 +213,7 @@ public class Controlador {
                         throw new SerExcepcion("No puede vivir en este planeta porque es de clima " + p.getClime() + ".");
                     }
 //            Si s es tipo Nibirianos
-                } else if (s instanceof Nibiriano) {
-                    Nibiriano n = (Nibiriano) s;
+                } else if (s instanceof Nibiriano n) {
                     // Si es vegetariano, necesita flora roja
                     if (n.esVegetariano() && !p.isFlora()) {
                         throw new SerExcepcion("No puede vivir en este planeta porque es no tiene flora.");
@@ -88,11 +235,6 @@ public class Controlador {
         } else {
             throw new SerExcepcion("[!] El planeta " + p.getName() + " ha llegado a su capacidad máxima .");
         }
-    }
-
-    public static Planeta getPlanet(Planeta p) throws DAO_Excep {
-        DAOSQL d = new DAOSQL();
-        return d.getPlanet(p);
     }
 
     public static void createser(Ser o, Planeta p) throws SerExcepcion, DAO_Excep {

@@ -1018,11 +1018,8 @@ public class DAOSQL {
             instruction.setString(5, p.getName());
             instruction.setString(6, p.getName());
             rs = instruction.executeQuery();
-            System.out.println(p.getName());
-            System.out.println(total + "1");
             while (rs.next()) {
                 total = total + 1;
-                System.out.println(total);
             }
 
         } catch (SQLException ex) {
@@ -1036,7 +1033,6 @@ public class DAOSQL {
                 System.out.println("total " + total);
                 return numero > total;
             } catch (SQLException ex) {
-                //ex.printStackTrace(System.out);
                 throw new DAO_Excep("Can not close database write process (DAO_COntroller.DAOSQL.insert)");
             }
 

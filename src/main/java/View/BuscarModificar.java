@@ -1,7 +1,6 @@
 package View;
 
 import static Controller.Controlador.*;
-import DAO_Controller.DAOSQL;
 import Excepcion.DAO_Excep;
 import Model.*;
 import java.util.logging.Level;
@@ -18,9 +17,8 @@ public class BuscarModificar extends javax.swing.JDialog {
      */
     public BuscarModificar(javax.swing.JFrame parent, boolean modal) throws DAO_Excep {
         super(parent, modal);
-        DAOSQL d = new DAOSQL();
         initComponents();
-        for (Ser ser : d.obtainSeres()) {
+        for (Ser ser : obtainSeres()) {
             nombresserlista.addItem(ser.getName());
         }
     }
@@ -121,10 +119,9 @@ public class BuscarModificar extends javax.swing.JDialog {
 
         String nombre = (String) nombresserlista.getSelectedItem();
         Ser s = null;
-        DAOSQL d = new DAOSQL();
 
         try {
-            s = d.getSer(new Ser(nombre));
+            s = getSer(new Ser(nombre));
         } catch (DAO_Excep ex) {
             Logger.getLogger(BuscarModificar.class.getName()).log(Level.SEVERE, null, ex);
         }

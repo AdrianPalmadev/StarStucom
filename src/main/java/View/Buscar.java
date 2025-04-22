@@ -5,7 +5,6 @@
 package View;
 
 import static Controller.Controlador.*;
-import DAO_Controller.DAOSQL;
 import Excepcion.DAO_Excep;
 import Model.*;
 import java.util.logging.Level;
@@ -24,7 +23,6 @@ public class Buscar extends javax.swing.JDialog {
      */
     public Buscar(javax.swing.JFrame parent, boolean modal) throws DAO_Excep {
         super(parent, modal);
-        DAOSQL d = new DAOSQL();
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -32,15 +30,15 @@ public class Buscar extends javax.swing.JDialog {
         nombreslista.removeAllItems();
         info.setText("");
         if (filtro.getSelectedItem().toString().equals("Humano")) {
-            for (Ser s : d.obtainSeres()) {
+            for (Ser s : obtainSeres()) {
                 if (s instanceof Humano) {
                     nombreslista.addItem(s.getName());
                 }
             }
         }
-        if (d.getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
-            info.setText(d.getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                    + "\n" + d.getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+        if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
+            info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                    + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
         }
         ejecutaUsuario = true;
 
@@ -167,12 +165,11 @@ public class Buscar extends javax.swing.JDialog {
     private void filtroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_filtroItemStateChanged
         ejecutaUsuario = false;
         // TODO add your handling code here:
-        DAOSQL d = new DAOSQL();
         nombreslista.removeAllItems();
         info.setText("");
         if (filtro.getSelectedItem().toString().equals("Humano")) {
             try {
-                for (Ser s : d.obtainSeres()) {
+                for (Ser s : obtainSeres()) {
                     if (s instanceof Humano) {
                         nombreslista.addItem(s.getName());
                     }
@@ -182,7 +179,7 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Andoriano")) {
             try {
-                for (Ser s : d.obtainSeres()) {
+                for (Ser s : obtainSeres()) {
                     if (s instanceof Andoriano) {
                         nombreslista.addItem(s.getName());
                     }
@@ -192,7 +189,7 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Ferengi")) {
             try {
-                for (Ser s : d.obtainSeres()) {
+                for (Ser s : obtainSeres()) {
                     if (s instanceof Ferengi) {
                         nombreslista.addItem(s.getName());
                     }
@@ -202,7 +199,7 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Klingon")) {
             try {
-                for (Ser s : d.obtainSeres()) {
+                for (Ser s : obtainSeres()) {
                     if (s instanceof Klingon) {
                         nombreslista.addItem(s.getName());
                     }
@@ -212,7 +209,7 @@ public class Buscar extends javax.swing.JDialog {
             }
         } else if (filtro.getSelectedItem().toString().equals("Nibiriano")) {
             try {
-                for (Ser s : d.obtainSeres()) {
+                for (Ser s : obtainSeres()) {
                     if (s instanceof Nibiriano) {
                         nombreslista.addItem(s.getName());
                     }
@@ -223,7 +220,7 @@ public class Buscar extends javax.swing.JDialog {
         } else if (filtro.getSelectedItem().toString().equals("Vulcaniano")) {
             nombreslista.removeAllItems();
             try {
-                for (Ser s : d.obtainSeres()) {
+                for (Ser s : obtainSeres()) {
                     if (s instanceof Vulcaniano) {
                         nombreslista.addItem(s.getName());
                     }
@@ -233,9 +230,9 @@ public class Buscar extends javax.swing.JDialog {
             }
         }
         try {
-            if (d.getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
-                info.setText(d.getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                        + "\n" + d.getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+            if (getSer(new Ser((String) nombreslista.getSelectedItem())) != null) {
+                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
             }
         } catch (DAO_Excep ex) {
             Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
@@ -248,10 +245,9 @@ public class Buscar extends javax.swing.JDialog {
 
         } else {
             info.setText("");
-            DAOSQL d = new DAOSQL();
             try {
-                info.setText(d.getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
-                        + "\n" + d.getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
+                info.setText(getSer(new Ser((String) nombreslista.getSelectedItem())).toString()
+                        + "\n" + getPlanetaSer(new Ser((String) nombreslista.getSelectedItem())));
             } catch (DAO_Excep ex) {
                 Logger.getLogger(Buscar.class.getName()).log(Level.SEVERE, null, ex);
             }

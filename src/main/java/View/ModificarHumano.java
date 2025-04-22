@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
-import DAO_Controller.DAOSQL;
 import Excepcion.DAO_Excep;
 import Model.*;
 import java.util.logging.Level;
@@ -21,13 +20,12 @@ public class ModificarHumano extends javax.swing.JDialog {
      */
     public ModificarHumano(javax.swing.JDialog parent, boolean modal, Humano c) throws DAO_Excep {
         super(parent, modal);
-        DAOSQL d = new DAOSQL();
 
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
 
-        Ser s = d.getSer(c);
+        Ser s = getSer(c);
         Humano sh = (Humano) s;
 
         nombreciudadano.setText(sh.getName());
@@ -206,7 +204,6 @@ public class ModificarHumano extends javax.swing.JDialog {
     private void modificarhumanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarhumanoActionPerformed
         // TODO add your handling code here:
 
-        DAOSQL d = new DAOSQL();
 
         //Variables de las propiedades de Humano
         String name = nombreciudadano.getText();
@@ -218,7 +215,7 @@ public class ModificarHumano extends javax.swing.JDialog {
         //Conseguimos el HashCode de s mediante el nombre
         Ser s = null;
         try {
-            s = d.getSer(new Ser(name));
+            s = getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -227,7 +224,7 @@ public class ModificarHumano extends javax.swing.JDialog {
 
         try {
             //Actualizamos la informacion
-            d.modificarhum(genero, edad, name);
+            modificarhum(genero, edad, name);
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -244,10 +241,9 @@ public class ModificarHumano extends javax.swing.JDialog {
      */
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
-        DAOSQL d = new DAOSQL();
         Ser s = null;
         try {
-            s = d.getSer(new Ser(nombreciudadano.getText()));
+            s = getSer(new Ser(nombreciudadano.getText()));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarHumano.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,8 +251,8 @@ public class ModificarHumano extends javax.swing.JDialog {
         Planeta p = null;
 
         try {
-            for (Ser sp : d.obtainSeres()) {
-                if (d.obtainPlanets().equals(sh.getPlanet())) {
+            for (Ser sp : obtainSeres()) {
+                if (obtainPlanets().equals(sh.getPlanet())) {
                     nombreplaneta.addItem(p.getName());
                     System.out.println(p.getName());
                 }

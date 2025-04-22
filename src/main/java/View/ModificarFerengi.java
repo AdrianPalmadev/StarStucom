@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 
 //PROYECTO
 import static Controller.Controlador.*;
-import DAO_Controller.DAOSQL;
 import Excepcion.DAO_Excep;
 import Model.*;
 import java.util.logging.Level;
@@ -161,7 +160,6 @@ public class ModificarFerengi extends javax.swing.JDialog {
         //Variables de las propiedades de Ferengi
         String name = nombreciudadano.getText();
         String planeta = (String) nombreplaneta.getSelectedItem();
-        DAOSQL d = new DAOSQL();
 
 //        Variable que se modifican
         int caoro = (int) oro.getValue();
@@ -169,7 +167,7 @@ public class ModificarFerengi extends javax.swing.JDialog {
 //        Conseguimos el HashCode mediante el nombre
         Ser s = null;
         try {
-            s = d.getSer(new Ser(name));
+            s = getSer(new Ser(name));
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -179,7 +177,7 @@ public class ModificarFerengi extends javax.swing.JDialog {
 
         try {
             //Actualizamos la informacion
-            d.modificarfer(caoro, name);
+            modificarfer(caoro, name);
         } catch (DAO_Excep ex) {
             Logger.getLogger(ModificarFerengi.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -196,10 +194,9 @@ public class ModificarFerengi extends javax.swing.JDialog {
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         // TODO add your handling code here:
-        DAOSQL d = new DAOSQL();
         nombreplaneta.removeAllItems();
         try {
-            for (Planeta p : d.obtainPlanets()) {
+            for (Planeta p : obtainPlanets()) {
                 nombreplaneta.addItem(p.getName());
             }
         } catch (DAO_Excep ex) {
